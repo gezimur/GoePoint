@@ -6,18 +6,20 @@ CONFIG -= qt
 LIBS += -lws2_32
 
 SOURCES += \
-        ClientSocket.cpp \
-        DataBaseRequest.cpp \
-        GeologyDataBase.cpp \
-        GeologyServer.cpp \
-        ServerListenSocket.cpp \
-        TimeMeter.cpp \
-        main.cpp
+        src/ClientProcessor.cpp \
+        src/Common/ThreadContainer.cpp \
+        src/GeologyDataBase/DataBaseConnection.cpp \
+        src/GeologyDataBase/GeologyDataBase.cpp \
+        src/GeologyServer.cpp \
+        src/ServerListenSocket.cpp \
+        src/Common/TimeMeter.cpp \
+        src/main.cpp
 
 HEADERS += \
-    ClientSocket.h \
-    DataBaseRequest.h \
-    GeologyDataBase.h \
-    GeologyServer.h \
-    ServerListenSocket.h \
-    TimeMeter.h
+    src/ClientProcessor.h \
+    src/Common/ThreadContainer.h \
+    src/GeologyDataBase/DataBaseConnection.h \
+    src/GeologyDataBase/GeologyDataBase.h \
+    src/GeologyServer.h \
+    src/ServerListenSocket.h \
+    src/Common/TimeMeter.h

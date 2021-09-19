@@ -4,7 +4,7 @@
 
 #include <ws2tcpip.h>
 
-#include "TimeMeter.h"
+#include "Common/TimeMeter.h"
 
 namespace geology
 {
@@ -67,7 +67,7 @@ ServerListenSocket::~ServerListenSocket()
     stop();
 }
 
-int ServerListenSocket::start()
+int ServerListenSocket::initializeSocket()
 {
     auto spAddrInfo = std::shared_ptr<addrinfo>(get_addr_info(m_iPort), &freeaddrinfo);
 
@@ -82,8 +82,6 @@ int ServerListenSocket::start()
         return 1;
     }
 
-    listenProc();
-
     return 0;
 }
 
@@ -92,30 +90,14 @@ void ServerListenSocket::stop()
     closesocket(m_Socket);
 }
 
-void ServerListenSocket::subscribe(add_client_func fAddClient)
+bool ServerListenSocket::listen()
 {
-    m_fAddClient = fAddClient;
+    return ::listen( m_Socket, SOMAXCONN ) != SOCKET_ERROR;
 }
 
-void ServerListenSocket::listenProc()
+SOCKET ServerListenSocket::connect()
 {
-    TimeMeter WorkTimeMeter;
-
-    while (WorkTimeMeter.getSecFromStart() < c_iWorkTime_sec)
-    {
-        if ( listen( m_Socket, SOMAXCONN ) != SOCKET_ERROR )
-            procConnection();
-
-        Sleep(e_sleep_server_msec);
-    }
-}
-
-void ServerListenSocket::procConnection()
-{
-    auto ClientSocket = accept(m_Socket, nullptr, nullptr);
-
-    if (ClientSocket != INVALID_SOCKET)
-        m_fAddClient(std::move(ClientSocket));
+    return accept(m_Socket, nullptr, nullptr);
 }
 
 }

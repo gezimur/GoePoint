@@ -14,10 +14,10 @@ GeologyDataBase::GeologyDataBase()
 
 }
 
-void GeologyDataBase::pushReq(const DataBaseRequest& crRequest)
+void GeologyDataBase::pushReq(const std::shared_ptr<DataBaseConnection>& spRequest)
 {
     std::lock_guard<std::mutex> Locker(m_Mutex);
-    m_qRequest.push(crRequest);
+    m_qRequest.push(spRequest);
 }
 
 void GeologyDataBase::threadProc()
@@ -36,19 +36,19 @@ void GeologyDataBase::procNextRequset()
     if (!spRequest)
         return;
 
-    spRequest->sendResponce("Responce processed: ");
+    spRequest->setResponce("Responce processed: ");
 }
 
-std::shared_ptr<DataBaseRequest> GeologyDataBase::popRequest()
+std::shared_ptr<DataBaseConnection> GeologyDataBase::popRequest()
 {
     std::lock_guard<std::mutex> Locker(m_Mutex);
     if (m_qRequest.empty())
         return nullptr;
 
-    auto Request = m_qRequest.front();
+    auto spRequest = m_qRequest.front();
     m_qRequest.pop();
 
-    return std::make_shared<DataBaseRequest>(Request);
+    return spRequest;
 }
 
 } // namespace geology
