@@ -13,11 +13,6 @@ namespace geology
 
 class GeologyServer
 {
-    enum
-    {
-        e_sleep_server_msec = 10
-    };
-
 public:
     GeologyServer(int iPort);
 

@@ -60,8 +60,6 @@ void GeologyServer::serverProc()
             std::cout << "serverProc() add new client " << std::endl;
             m_lClientProcessor.push_back(std::make_shared<ClientProcessor>(m_ListenSocket.connect(), spDataBaseCtrl));
         }
-
-        Sleep(e_sleep_server_msec);
     }
 
     stop();
