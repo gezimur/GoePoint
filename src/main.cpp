@@ -6,29 +6,6 @@
 #include "GeologyServer.h"
 #include "Common/TimeMeter.h"
 
-void collect_garbage(std::list<std::shared_ptr<geology::ClientProcessor>>& lClientProcessor)
-{
-    std::cout << "collectGarbage(), size: " << lClientProcessor.size() << std::endl;
-    for (auto it = lClientProcessor.begin(); it != lClientProcessor.end(); )
-    {
-        std::cout << "collectGarbage() " << std::endl;
-
-        if(!(*it)->isInitialized())
-        {
-            std::cout << "erase client, size before: " << lClientProcessor.size();
-            lClientProcessor.erase(it);
-            std::cout << " size after: " << lClientProcessor.size() << std::endl;
-        }
-        else
-        {
-            std::cout << "collectGarbage() go next " << std::endl;
-            ++it;
-        }
-
-        std::cout << "collectGarbage() after" << std::endl;
-    }
-}
-
 int main()
 {
     try

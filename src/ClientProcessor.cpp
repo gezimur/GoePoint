@@ -38,6 +38,11 @@ void ClientProcessor::stop()
 
 void ClientProcessor::threadProc()
 {
+//    std::string strHTML = "<!DocType html><html lang=\"en\"><body><div>Hello World!<//div><//body><//html>";
+    std::string strHTML = "HTTP/1.1 200 OK\r\nVersion: HTTP/1.1\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: 12\r\n\r\nHello World!";
+
+    send(m_Socket, strHTML.c_str(), strHTML.size(), 0);
+
     bool bRun = true;
     while(bRun && INVALID_SOCKET != m_Socket)
     {

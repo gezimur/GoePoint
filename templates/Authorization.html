@@ -1,0 +1,68 @@
+<!DocType html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>lab1</title>
+</head>
+<style id="style">
+
+.Body
+{
+    background-color:#ddddcc;
+}
+
+.MainBlock
+{
+	--f-width: 300px;
+	--l-width: 500px;
+	background-color: #ddddcc;<!-- ddddcc 000000 -->
+	margin: 40px auto;
+	max-width: 900px;
+	min-width: var(--l-width);
+	min-height: var(--l-width);
+}
+
+.InputBlock
+{
+	background-color: #aaaaaa;
+	
+	width: 200px;
+	
+	margin: 40px auto;
+	padding: auto;
+	
+	text-align: center;
+}
+
+.Title
+{
+	padding: 10px;
+	color: #000000;
+}
+
+.Button
+{
+	margin: 10px;
+	color: #000000;
+}
+
+.Message
+{
+	visibility: hidden;
+	height: 0;
+}
+
+</style>
+<body class="Body">
+	<div class="MainBlock">
+		<div class="InputBlock">
+			<div class="Title">Authorization</div>
+			<div class="Message">Error message</div>
+			<input type="text" name="username" form="Authorization" placeholder="username"><br>
+			<input type="password" name="password" form="Authorization" placeholder="password"><br>
+			<input class="Button" type="submit" form="Authorization">
+		</div>
+	</div>
+	<form id="login" action="/authorization"></form>
+</body>
+</html>

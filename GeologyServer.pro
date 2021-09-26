@@ -3,6 +3,13 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
+#INCLUDEPATH += $$PWD/../PostgreSQL/include
+
+LIBS += -L$$PWD/../PostgreSQL/lib/ \
+        -L$$PWD/../GeologyDatabase/lib
+
+LIBS += -lpq -lGeologyDatabase_lib
+
 LIBS += -lws2_32
 
 SOURCES += \
