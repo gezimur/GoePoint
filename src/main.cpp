@@ -1,10 +1,7 @@
 #include <iostream>
 #include <thread>
 
-#include <ws2tcpip.h>
-
-#include "GeologyServer.h"
-#include "Common/TimeMeter.h"
+#include "AuthorizationPage.h"
 
 int main()
 {
@@ -12,18 +9,15 @@ int main()
     {
         int iPort = 2345;
 
-        geology::GeologyServer Server(iPort);
+        httpserver::webserver WebServer = httpserver::create_webserver(iPort);
 
-        Server.start();
+        auto spDataBase = std::make_shared<geology::GeologyDataBase>(geology::PGConnection{geology::ConnectionParams{}});
 
-//        std::list<std::shared_ptr<geology::ClientProcessor>> lClientProcessor;
-//        lClientProcessor.push_back(std::make_shared<geology::ClientProcessor>(INVALID_SOCKET, nullptr));
+        geology::AuthorizationPage Authorization(spDataBase);
+        WebServer.register_resource("/", &Authorization);
+        WebServer.register_resource("/authorization", &Authorization);
 
-//        Sleep(200);
-
-//        collect_garbage(lClientProcessor);
-
-//        geology::ClientProcessor(INVALID_SOCKET, nullptr);
+        WebServer.start(true);
 
         return 0;
     }
