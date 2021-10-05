@@ -7,19 +7,28 @@
 #include <memory>
 #include <condition_variable>
 
+#include "DataBaseResponce.h"
+
 namespace geology
 {
 
 class DataBaseRequest
 {
-public:
-    enum class data_base_req_type
+public:    
+    enum data_base_req_type
     {
         get_user = 0,
+        get_user_list,
+        write_user,
+
         get_order,
         get_order_list,
+        write_order,
+
         get_customer,
         get_customer_list,
+        write_customer,
+
         cnt
     };
 
@@ -33,14 +42,11 @@ public:
     data_base_req_type getReqType() const noexcept;
     const std::map<std::string, std::string>& getReqArgs() const noexcept;
 
-    void setResMsg(const std::string& strMsg) noexcept;
-    void setRes(const std::vector<std::map<std::string, std::string>>& vRes) noexcept;
+    void setRes(const DataBaseResponce& crResponce) noexcept;
 
-    const std::string& getResMsg() const noexcept;
-    const std::vector<std::map<std::string, std::string>>& getRes() const noexcept;
+    const DataBaseResponce& getRes() const noexcept;
 
-    const std::string& waitAndGetResMsg() const noexcept;
-    const std::vector<std::map<std::string, std::string>>& waitAndGetRes() const noexcept;
+    const DataBaseResponce& waitAndGetRes() const noexcept;
 
 private:
     mutable std::mutex m_Mutex;
@@ -49,8 +55,7 @@ private:
     data_base_req_type m_ReqType;
     std::map<std::string, std::string> m_mArgs;
 
-    std::string m_strResMsg;
-    std::vector<std::map<std::string, std::string>> m_vRes;
+    DataBaseResponce m_Res;
 
 };
 

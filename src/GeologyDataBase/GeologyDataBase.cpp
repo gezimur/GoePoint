@@ -1,12 +1,12 @@
 #include "GeologyDataBase.h"
 
-#include <synchapi.h>
+#include <windows.h>
 
 namespace geology
 {
 
-GeologyDataBase::GeologyDataBase(const PGConnection& crConnection)
-    : m_DataBaseCtrl(crConnection),
+GeologyDataBase::GeologyDataBase(const ConnectionParams& crParams)
+    : m_upDataBaseCtrl(make_ctrl(crParams)),
       m_DataBaseThread([this]()
 {
     threadProc();
@@ -42,32 +42,36 @@ void GeologyDataBase::procNextRequest()
     switch (ReqType)
     {
     case DataBaseRequest::data_base_req_type::get_user :
-    {
-        procLoadSingle<User>(spRequest);
-        break;
-    }
+        return procLoadSingle(IDataBaseCtrl::e_user, spRequest);
+
+    case DataBaseRequest::data_base_req_type::get_user_list :
+        return procLoadList(IDataBaseCtrl::e_user, spRequest);
+
+    case DataBaseRequest::data_base_req_type::write_user :
+        return procWrite(IDataBaseCtrl::e_user, spRequest);
+
     case DataBaseRequest::data_base_req_type::get_order :
-    {
-        procLoadSingle<Order>(spRequest);
-        break;
-    }
+        return procLoadOrderGreedy(spRequest);
+
     case DataBaseRequest::data_base_req_type::get_order_list :
-    {
-        procLoadList<Order>(spRequest);
-        break;
-    }
+        return procLoadOrderGreedy(spRequest);
+
+    case DataBaseRequest::data_base_req_type::write_order :
+        return procWrite(IDataBaseCtrl::e_order, spRequest);
+
     case DataBaseRequest::data_base_req_type::get_customer :
-    {
-        procLoadSingle<Customer>(spRequest);
-        break;
-    }
+        return procLoadSingle(IDataBaseCtrl::e_customer, spRequest);
+
     case DataBaseRequest::data_base_req_type::get_customer_list :
-    {
-        procLoadList<Customer>(spRequest);
-        break;
-    }
+        return procLoadList(IDataBaseCtrl::e_customer, spRequest);
+
+    case DataBaseRequest::data_base_req_type::write_customer :
+        return procWrite(IDataBaseCtrl::e_customer, spRequest);
+
     default:
-        break;
+    {
+        spRequest->setRes(DataBaseResponce{"invalid request"});
+    }
     }
 }
 

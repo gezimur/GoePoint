@@ -3,10 +3,9 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-INCLUDEPATH += $$PWD/../libhttpserver/src \
-                $$PWD/../libcppmicrohttpd/include \
-                $$PWD/../GeologyDatabase/src \
-                $$PWD/../PostgreSQL/include
+INCLUDEPATH +=  $$PWD/../libcppmicrohttpd/include \
+                $$PWD/../libhttpserver/src \
+                $$PWD/../GeologyDatabase/include
 
 LIBS += -L$$PWD/../PostgreSQL/lib/ \
         -L$$PWD/../GeologyDatabase/lib \
@@ -18,18 +17,28 @@ LIBS += -lpq -lGeologyDatabase_lib
 LIBS += -lws2_32 -lhttpserver -lmicrohttpd
 
 SOURCES += \
-        src/AuthorizationPage.cpp \
         src/Common/ThreadContainer.cpp \
-        src/GeologyDataBase/DataBaseConnection.cpp \
+        src/CommonProcessor.cpp \
+        src/GeologyDataBase/DataBaseRequest.cpp \
         src/GeologyDataBase/GeologyDataBase.cpp \
         src/Common/TimeMeter.cpp \
+        src/HTTP_staff.cpp \
+        src/ManagerProcessor.cpp \
+        src/PageContainer.cpp \
+        src/RequestProcessor.cpp \
+        src/SpecialistProcessor.cpp \
         src/TemplateReader.cpp \
         src/main.cpp
 
 HEADERS += \
-    src/AuthorizationPage.h \
     src/Common/ThreadContainer.h \
-    src/GeologyDataBase/DataBaseConnection.h \
+    src/CommonProcessor.h \
+    src/GeologyDataBase/DataBaseRequest.h \
     src/GeologyDataBase/GeologyDataBase.h \
     src/Common/TimeMeter.h \
+    src/HTTP_staff.h \
+    src/ManagerProcessor.h \
+    src/PageContainer.h \
+    src/RequestProcessor.h \
+    src/SpecialistProcessor.h \
     src/TemplateReader.h

@@ -1,0 +1,34 @@
+.Body
+{
+    background-color:#aaaaaa;
+}
+
+.HeadLine
+{
+	background-color:#888888;
+	width: 100%;
+	text-align: left;
+	padding: 20px;
+}
+
+.MainBlock
+{
+	--f-width: 300px;
+	--l-width: 500px;
+	background-color: #999999;
+	margin: 40px auto;
+	max-width: 900px;
+	min-width: var(--l-width);
+	min-height: var(--l-width);
+}
+
+.DataList
+{
+	background-color: #bbbbbb;
+}
+
+td
+{
+	width: 200px;
+	margin: 10px;
+}

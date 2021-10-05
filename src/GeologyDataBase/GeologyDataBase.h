@@ -6,9 +6,9 @@
 #include <algorithm>
 #include <thread>
 
-#include <DataBaseCtrl.h>
+#include <IDataBaseCtrl.h>
 
-#include "DataBaseConnection.h"
+#include "DataBaseRequest.h"
 
 namespace geology
 {
@@ -18,7 +18,7 @@ class GeologyDataBase
     using requset_queue = std::queue<std::shared_ptr<DataBaseRequest>>;
 
 public:
-    GeologyDataBase(const PGConnection& crConnection);
+    explicit GeologyDataBase(const ConnectionParams& crParams);
 
     void pushReq(const std::shared_ptr<DataBaseRequest>& spRequest);
 
@@ -29,57 +29,88 @@ private:
 
     std::shared_ptr<DataBaseRequest> popRequest();
 
-    template<typename t_Table>
-    void procLoadList(const std::shared_ptr<DataBaseRequest>& spReq)
+    void procLoadOrderGreedy(const std::shared_ptr<DataBaseRequest>& spReq)
     {
         auto mArgs = spReq->getReqArgs();
 
-        int iCnt = std::stoi(mArgs["cnt"]);
-        mArgs.erase("cnt");
-
-        std::string strSortType = mArgs["sort_type"];
-        mArgs.erase("sort_type");
-
-        t_Table Filter(mArgs);
-
-        auto vRes = m_DataBaseCtrl.load<t_Table>(iCnt, Filter, strSortType);
-
-        if (vRes.empty())
-            spReq->setResMsg("Nothing found");
-        else
-            spReq->setResMsg("Success");
-
-        std::vector<std::map<std::string, std::string>> vResHelp;
-        std::transform(vRes.begin(), vRes.end(), std::back_inserter(vResHelp), [](const t_Table& crRes)
+        int iCnt = 1;
+        if (mArgs.end() != mArgs.find("cnt"))
         {
-            return crRes.getValuesMap();
-        });
+            iCnt = std::stoi(mArgs["cnt"]);
+            mArgs.erase("cnt");
+        }
 
-        spReq->setRes(vResHelp); ///@todo
+        std::string strSortType;
+        if (mArgs.end() != mArgs.find("sort_type"))
+        {
+            strSortType = mArgs["sort_type"];
+            mArgs.erase("sort_type");
+        }
+
+        auto Res = m_upDataBaseCtrl->loadOrderGreedy(iCnt, mArgs, strSortType);
+
+        if (Res.getMsg().empty() && Res.getTable().empty())
+            spReq->setRes(DataBaseResponce{"Nothing found"});
+        else
+            spReq->setRes(std::move(Res));
     }
 
-    template<typename t_Table>
-    void procLoadSingle(const std::shared_ptr<DataBaseRequest>& spReq)
+    void procLoadList(IDataBaseCtrl::enu_tables eTable, const std::shared_ptr<DataBaseRequest>& spReq)
     {
         auto mArgs = spReq->getReqArgs();
 
-        int iId = std::stoi(mArgs["id"]);
+        int iCnt = 1;
+        if (mArgs.end() != mArgs.find("cnt"))
+        {
+            iCnt = std::stoi(mArgs["cnt"]);
+            mArgs.erase("cnt");
+        }
 
-        std::string strSortType = mArgs["sort_type"];
-        mArgs.erase("sort_type");
+        std::string strSortType;
+        if (mArgs.end() != mArgs.find("sort_type"))
+        {
+            strSortType = mArgs["sort_type"];
+            mArgs.erase("sort_type");
+        }
 
-        auto Res = m_DataBaseCtrl.loadById<t_Table>(iId);
+        auto Res = m_upDataBaseCtrl->load(eTable, iCnt, mArgs, strSortType);
 
-        spReq->setResMsg("Success");
-
-        std::map<std::string, std::string> mResHelp{Res.getValuesMap()};
-
-        spReq->setRes({mResHelp}); ///@todo
+        if (Res.getMsg().empty() && Res.getTable().empty())
+            spReq->setRes(DataBaseResponce{"Nothing found"});
+        else
+            spReq->setRes(std::move(Res));
     }
+
+    void procLoadSingle(IDataBaseCtrl::enu_tables eTable, const std::shared_ptr<DataBaseRequest>& spReq)
+    {
+        auto mArgs = spReq->getReqArgs();
+
+        int iId = 0;
+        if (mArgs.end() != mArgs.find("id"))
+        {
+            iId= std::stoi(mArgs["id"]);
+            spReq->setRes(m_upDataBaseCtrl->loadById(eTable, iId));
+        }
+        else
+            spReq->setRes(DataBaseResponce{"Id not specialized"});
+    }
+
+    void procWrite(IDataBaseCtrl::enu_tables eTable, const std::shared_ptr<DataBaseRequest>& spReq)
+    {
+        auto mArgs = spReq->getReqArgs();
+
+        auto Res = m_upDataBaseCtrl->write(eTable, mArgs);
+
+        if (Res.getMsg().empty())
+            Res.setMsg("Success");
+
+        spReq->setRes(Res);
+    }
+
 
     std::mutex m_Mutex;
 
-    DataBaseCtrl m_DataBaseCtrl;
+    std::unique_ptr<IDataBaseCtrl> m_upDataBaseCtrl;
 
     requset_queue m_qRequest;
 
