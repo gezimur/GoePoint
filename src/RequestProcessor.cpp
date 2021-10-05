@@ -78,7 +78,7 @@ RequestProcessor::responce_type RequestProcessor::render_POST(const httpserver::
     else if ("1" == strRole) //specialist
         return m_SpecialistProcessor.processPOST(crReq);
 
-    return proc_exit(); ///@todo
+    return proc_exit();
 }
 
 RequestProcessor::responce_type RequestProcessor::procUserLvl(const httpserver::http_request& crReq)
@@ -91,7 +91,7 @@ RequestProcessor::responce_type RequestProcessor::procUserLvl(const httpserver::
         return proc_exit();
 
     if ("/profile" == crReq.get_path())
-        return proc_html_responce(m_spPages->getUserPage(), 200);
+        return proc_html_responce(m_spPages->getProfileManagerPage(), 200); ///@todo
 
     auto mUser = Res.getTable()[0];
 

@@ -37,6 +37,30 @@ std::map<std::string, std::string> make_search_form_map(const httpserver::http_r
     if (!strArg.empty())
         mArgs["customer.full_name"] = strArg;
 
+    strArg = crReq.get_arg("passport_number");
+    if (!strArg.empty())
+        mArgs["passport_number"] = strArg;
+
+    strArg = crReq.get_arg("passport_gived");
+    if (!strArg.empty())
+        mArgs["passport_gived"] = strArg;
+
+    strArg = crReq.get_arg("passport_date");
+    if (!strArg.empty())
+        mArgs["passport_date"] = strArg;
+
+    strArg = crReq.get_arg("snils");
+    if (!strArg.empty())
+        mArgs["snils"] = strArg;
+
+    strArg = crReq.get_arg("phone");
+    if (!strArg.empty())
+        mArgs["phone"] = strArg;
+
+    strArg = crReq.get_arg("email");
+    if (!strArg.empty())
+        mArgs["email"] = strArg;
+
     mArgs["cnt"] = "100";
     return mArgs;
 }
@@ -51,21 +75,11 @@ CommonProcessor::CommonProcessor(const std::shared_ptr<GeologyDataBase>& spDataB
 
 CommonProcessor::responce_type CommonProcessor::processGET(const httpserver::http_request& crReq)
 {
-//    auto it = std::find(m_vRegisteredUrl.begin(), m_vRegisteredUrl.end(), crReq.get_path());
-
-//    if (m_vRegisteredUrl.end() == it)
-//        return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_spPages->get404Page(), 404, "text/html"));
-
     return procAuthLvl(crReq);
 }
 
 CommonProcessor::responce_type CommonProcessor::processPOST(const httpserver::http_request& crReq)
 {
-//    auto it = std::find(m_vRegisteredUrl.begin(), m_vRegisteredUrl.end(), crReq.get_path());
-
-//    if (m_vRegisteredUrl.end() == it)
-//        return proc_msg_responce("Unknow request", 200);
-
     auto strPath = crReq.get_path();
 
     if (crReq.get_cookie("id").empty())

@@ -46,23 +46,65 @@
 	color: #000000;
 }
 
-.Message
-{
-	visibility: hidden;
-	height: 0;
-}
-
 </style>
 <body class="Body">
 	<div class="MainBlock">
-		<div class="InputBlock">
+		<div class="InputBlock" id="InputBlock">
 			<div class="Title">Authorization</div>
-			<div class="Message">Error message</div>
+			<div class="Message" id="Message"></div>
 			<input type="text" name="username" form="Authorization" placeholder="username"><br>
 			<input type="password" name="password" form="Authorization" placeholder="password"><br>
-			<input class="Button" type="submit" form="Authorization">
+			<input class="Button" type="submit" form="Authorization" onclick="authorization()">
 		</div>
 	</div>
-	<form id="Authorization" action="/authorization" method="POST"></form>
+	<script src="/resources/sendform.js"></script>
+	<script>
+			function sendForm(form, receiveFunc, url)
+			{
+				var req = new XMLHttpRequest();
+				req.addEventListener('load', function(e)
+				{
+					if (200 == e.status)
+					{
+						window.location.reload();
+					}
+					else
+					{
+						var data = e.target;
+						var response = data.responseText;
+						receiveFunc(JSON.parse(response));
+					}
+				});
+				req.open('POST', url);
+				req.responseType = 'text';
+				req.send(form);
+			}
+			function createMyForm(message)
+			{
+				var form = new FormData();
+				for (item  = 0; item < message.length; item++)
+					if (message[item].value != "")
+						form.append(message[item].name, message[item].value);
+
+				return form;
+			}
+			function createMessage() 
+			{
+				return InputBlock.querySelectorAll("input");
+			}
+	
+			function showMsg(Responce)
+			{
+				Message.hidden = false;
+				Message.innerHTML = Responce.message;
+			}
+			function authorization()
+			{
+				var message = createMessage();
+				var form = createMyForm(message, 0);
+				
+				sendForm(form, showMsg, window.location.pathname);
+			}
+	</script>
 </body>
 </html>

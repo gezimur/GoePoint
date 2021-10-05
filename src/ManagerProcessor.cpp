@@ -80,12 +80,12 @@ ManagerProcessor::responce_type ManagerProcessor::processGET(const httpserver::h
     auto strPath = crReq.get_path();
 
     if ("/order_list" == strPath)
-        return proc_html_responce(m_spPages->getOrderListPage(), 200); ///@todo manager page
+        return proc_html_responce(m_spPages->getOrderListManagerPage(), 200); ///@todo manager page
 
     if (std::string::npos == strPath.find("/order"))
         return proc_html_responce(m_spPages->get404Page(), 200);
 
-    return proc_html_responce(m_spPages->getOrderPage(), 200); ///@todo manager page
+    return proc_html_responce(m_spPages->getOrderManagerPage(), 200); ///@todo manager page
 }
 
 ManagerProcessor::responce_type ManagerProcessor::processPOST(const httpserver::http_request& crReq)

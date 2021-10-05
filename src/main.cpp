@@ -13,7 +13,9 @@ public:
         geology::TemplateReader Reader("E:\\code\\GeologyServer\\resources");
         m_strJsSendForm = Reader.readTemplate("scripts\\SendForm.js");
         m_strJsLoadOrderList = Reader.readTemplate("scripts\\LoadOrderList.js");
-        m_strJsLoadData = Reader.readTemplate("scripts\\ManagerDataScript.js");///@todo
+        m_strJsProfileData = Reader.readTemplate("scripts\\ProfileScript.js");
+        m_strJsManagerData = Reader.readTemplate("scripts\\ManagerDataScript.js");
+        m_strJsSpecialistData = Reader.readTemplate("scripts\\SpecialistDataScript.js");
         m_strCssResource = Reader.readTemplate("css\\MainCss.css");
     }
 
@@ -23,9 +25,13 @@ public:
         if ("/resources/sendform.js" == strPath)
             return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsSendForm));
         if ("/resources/loadorderlist.js" == strPath)
-            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsLoadOrderList));
-        if ("/resources/loaddata.js" == strPath)
-            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsLoadData));
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsLoadOrderList));//specialistdata
+        if ("/resources/profiledata.js" == strPath)
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsProfileData));
+        if ("/resources/managerdata.js" == strPath)
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsManagerData));
+        if ("/resources/specialistdata.js" == strPath)
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsManagerData));
         if ("/resources/maincss.css" == strPath)
             return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strCssResource, 200, "text/css"));
 
@@ -36,7 +42,9 @@ private:
     std::string m_strJsSendForm;
     std::string m_strJsLoadOrderList;
     std::string m_strCssResource;
-    std::string m_strJsLoadData;
+    std::string m_strJsProfileData;
+    std::string m_strJsManagerData;
+    std::string m_strJsSpecialistData;
 };
 
 class Res404: public httpserver::http_resource
@@ -68,7 +76,8 @@ int main()
         Resources ResourceProcessor;
         WebServer.register_resource("/resources/sendform.js", &ResourceProcessor);
         WebServer.register_resource("/resources/loadorderlist.js", &ResourceProcessor);
-        WebServer.register_resource("/resources/loaddata.js", &ResourceProcessor);
+        WebServer.register_resource("/resources/profiledata.js", &ResourceProcessor);
+        WebServer.register_resource("/resources/managerdata.js", &ResourceProcessor);
         WebServer.register_resource("/resources/maincss.css", &ResourceProcessor);
 
         geology::RequestProcessor PageProcessor;

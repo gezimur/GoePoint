@@ -1,13 +1,8 @@
-    Statuses.innerHTML = "<option value=\"0\">Open</option>" +
-						"<option value=\"3\">Close</option>";
-	
 	function editData()
 	{
-		Statuses.readOnly = false;
 		Inputs = InputBlock.querySelectorAll("input");
 		for (item  = 0; item < Inputs.length; item++)
-			if (Inputs[item].name != "executor")
-				Inputs[item].readOnly = false;
+			Inputs[item].readOnly = false;
 		
 		Buttons = ButtonBlock.querySelectorAll("input");
 		for (item  = 0; item < Buttons.length; item++)
@@ -21,7 +16,6 @@
 	}
 	function cancelEdit()
 	{
-		Statuses.readOnly = true;
 		Inputs = InputBlock.querySelectorAll("input");
 		for (item  = 0; item < Inputs.length; item++)
 			Inputs[item].readOnly = true;
@@ -57,7 +51,7 @@
 		sendForm(form, printData, window.location.pathname);
 	}
 	
-	function saveData(bRewriteCustomer = false)
+	function saveData()
 	{
 		var message = createMessage();
 		var form = createMyForm(message, 0);
@@ -65,24 +59,7 @@
 		if (bRewriteCustomer)
 			form.append("rewrite_customer", "1");
 		
-		sendForm(form, tryToSave, window.location.pathname + "/save");
-	}
-	
-	function tryToSave(Responce)
-	{
-		RespMsg = Responce.message;
-		if ("rewrite_customer?" == RespMsg)
-		{
-			res = confirm("A customer with such a passport already exists, but does not correspond to the one sent.\n Do you want to rewrite it?");
-			if (res)
-			{
-				saveData(true);
-			}
-		}
-		else
-		{
-			Message.innerHTML = RespMsg;
-		}
+		sendForm(form, printData, window.location.pathname + "/save");
 	}
 	
 	cancelEdit();

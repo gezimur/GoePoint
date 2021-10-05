@@ -1,10 +1,14 @@
-    var OrderStatus = [{"0" : "free"}, {"1" : "in process"}, {"2" : "finished"}, {"3" : "closed"}];
+    Statuses.innerHTML = "<option value=\"0\">Open</option>" +
+						"<option value=\"1\">In process</option>" +
+						"<option value=\"2\">Finished</option>";
 	
 	function editData()
 	{
+		Statuses.readOnly = false;
 		Inputs = InputBlock.querySelectorAll("input");
 		for (item  = 0; item < Inputs.length; item++)
-			Inputs[item].readOnly = false;
+			if (Inputs[item].name != "executor")
+				Inputs[item].readOnly = false;
 		
 		Buttons = ButtonBlock.querySelectorAll("input");
 		for (item  = 0; item < Buttons.length; item++)
@@ -18,10 +22,10 @@
 	}
 	function cancelEdit()
 	{
+		Statuses.readOnly = true;
 		Inputs = InputBlock.querySelectorAll("input");
 		for (item  = 0; item < Inputs.length; item++)
-			if (Inputs[item].name != "status")
-				Inputs[item].readOnly = true;
+			Inputs[item].readOnly = true;
 		
 		Buttons = ButtonBlock.querySelectorAll("input");
 		for (item  = 0; item < Buttons.length; item++)
@@ -68,7 +72,7 @@
 	function tryToSave(Responce)
 	{
 		RespMsg = Responce.message;
-		if ("2" == RespMsg)
+		if ("rewrite_customer?" == RespMsg)
 		{
 			res = confirm("A customer with such a passport already exists, but does not correspond to the one sent.\n Do you want to rewrite it?");
 			if (res)

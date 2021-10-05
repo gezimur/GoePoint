@@ -12,28 +12,34 @@ public:
 
     const std::string& getAuthorizationPage();
 
-    const std::string& getOrderListPage();
-    const std::string& getCustomerListPage();
-    const std::string& getUserListPage();
+    const std::string& getProfileManagerPage();
+    const std::string& getProfileSpecialistPage();
 
-    const std::string& getOrderPage();
-    const std::string& getCustomerPage();
-    const std::string& getUserPage();
+    const std::string& getOrderManagerPage();
+    const std::string& getOrderSpecialistPage();
+
+    const std::string& getOrderListManagerPage();
+    const std::string& getOrderListSpecialistPage();
 
     const std::string& get404Page();
 
 private:
+    void initProfilePages(const std::string& strDataTemplate);
+    void initOrderPages(const std::string& strDataTemplate);
+    void initOrderListPages(const std::string& strMainTemplate);
+
     TemplateReader m_Reader;
 
     std::string m_strAuthorizationPage;
 
-    std::string m_strPofilePage;
-    std::string m_strOrderPage;
-    std::string m_strCustomerPage;
+    std::string m_strPofileManagerPage;
+    std::string m_strPofileSpecialistPage;
 
-    std::string m_strPofileListPage;
-    std::string m_strOrderListPage;
-    std::string m_strCustomerListPage;
+    std::string m_strOrderManagerPage;
+    std::string m_strOrderSpecialistPage;
+
+    std::string m_strOrderListManagerPage;
+    std::string m_strOrderListSpecialistPage;
 
     std::string m_str404Page;
 };

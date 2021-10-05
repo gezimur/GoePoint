@@ -18,12 +18,12 @@ SpecialistProcessor::responce_type SpecialistProcessor::processGET(const httpser
     auto strPath = crReq.get_path();
 
     if ("/order_list" == strPath)
-        return proc_html_responce(m_spPages->getOrderListPage(), 200); ///@todo manager page
+        return proc_html_responce(m_spPages->getOrderListSpecialistPage(), 200); ///@todo manager page
 
     if (std::string::npos == strPath.find("/order"))
         return proc_exit(); ///@todo exception page
 
-    return proc_html_responce(m_spPages->getOrderPage(), 200); ///@todo manager page
+    return proc_html_responce(m_spPages->getOrderSpecialistPage(), 200); ///@todo manager page
 }
 
 SpecialistProcessor::responce_type SpecialistProcessor::processPOST(const httpserver::http_request& crReq)
