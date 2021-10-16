@@ -61,7 +61,6 @@ std::map<std::string, std::string> make_search_form_map(const httpserver::http_r
     if (!strArg.empty())
         mArgs["email"] = strArg;
 
-    mArgs["cnt"] = "100";
     return mArgs;
 }
 
@@ -100,7 +99,7 @@ CommonProcessor::responce_type CommonProcessor::procAuthorization(const httpserv
 {
     std::map<std::string, std::string> mArgs{{"username", crReq.get_args().at("username")}, {"password", crReq.get_args().at("password")}};
 
-    auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::get_user_list, mArgs);
+    auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::get_user, mArgs);
     m_spDataBase->pushReq(spReq);
 
     auto Res = spReq->waitAndGetRes();
@@ -108,7 +107,7 @@ CommonProcessor::responce_type CommonProcessor::procAuthorization(const httpserv
     if ("Nothing found" == Res.getMsg())
         return proc_msg_responce("Authorization failed", 200);
 
-    auto spResp = make_redirect("/profile");
+    auto spResp = proc_msg_responce("Success", 200);
 
     spResp->with_cookie("id", Res.getTable()[0].at("id"));
 
@@ -117,9 +116,10 @@ CommonProcessor::responce_type CommonProcessor::procAuthorization(const httpserv
 
 CommonProcessor::responce_type CommonProcessor::procOrderList(const httpserver::http_request& crReq)
 {
-    auto eType = DataBaseRequest::data_base_req_type::get_order_list;
+    auto eType = DataBaseRequest::data_base_req_type::get_order_greedy;
 
     auto spReq = DataBaseRequest::make(eType, make_search_form_map(crReq));
+    spReq->setCnt(100);
     m_spDataBase->pushReq(spReq);
 
     auto Res = spReq->waitAndGetRes();

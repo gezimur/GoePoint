@@ -18,15 +18,13 @@ public:
     enum data_base_req_type
     {
         get_user = 0,
-        get_user_list,
         write_user,
 
         get_order,
-        get_order_list,
+        get_order_greedy,
         write_order,
 
         get_customer,
-        get_customer_list,
         write_customer,
 
         cnt
@@ -39,8 +37,13 @@ private:
 public:
     static std::shared_ptr<DataBaseRequest> make(data_base_req_type ReqType, const std::map<std::string, std::string>& mReqArgs);
 
+    void setCnt(int iCnt) noexcept;
+    void setSortType(const std::string& strSortType) noexcept;
+
     data_base_req_type getReqType() const noexcept;
     const std::map<std::string, std::string>& getReqArgs() const noexcept;
+    int getCnt() const noexcept;
+    const std::string& getSortType() const noexcept;
 
     void setRes(const DataBaseResponce& crResponce) noexcept;
 
@@ -54,6 +57,8 @@ private:
 
     data_base_req_type m_ReqType;
     std::map<std::string, std::string> m_mArgs;
+    int m_iCnt;
+    std::string m_strSortType;
 
     DataBaseResponce m_Res;
 

@@ -42,27 +42,21 @@ void GeologyDataBase::procNextRequest()
     switch (ReqType)
     {
     case DataBaseRequest::data_base_req_type::get_user :
-        return procLoadSingle(IDataBaseCtrl::e_user, spRequest);
-
-    case DataBaseRequest::data_base_req_type::get_user_list :
         return procLoadList(IDataBaseCtrl::e_user, spRequest);
 
     case DataBaseRequest::data_base_req_type::write_user :
         return procWrite(IDataBaseCtrl::e_user, spRequest);
 
     case DataBaseRequest::data_base_req_type::get_order :
-        return procLoadOrderGreedy(spRequest);
+        return procLoadList(IDataBaseCtrl::e_order, spRequest);
 
-    case DataBaseRequest::data_base_req_type::get_order_list :
+    case DataBaseRequest::data_base_req_type::get_order_greedy :
         return procLoadOrderGreedy(spRequest);
 
     case DataBaseRequest::data_base_req_type::write_order :
         return procWrite(IDataBaseCtrl::e_order, spRequest);
 
     case DataBaseRequest::data_base_req_type::get_customer :
-        return procLoadSingle(IDataBaseCtrl::e_customer, spRequest);
-
-    case DataBaseRequest::data_base_req_type::get_customer_list :
         return procLoadList(IDataBaseCtrl::e_customer, spRequest);
 
     case DataBaseRequest::data_base_req_type::write_customer :

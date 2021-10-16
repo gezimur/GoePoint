@@ -1,5 +1,7 @@
 #include "HTTP_staff.h"
 
+#include "IDocFiller.h"
+
 namespace geology
 {
 
@@ -84,6 +86,47 @@ const std::shared_ptr<httpserver::http_response> proc_exit()
     auto spRes = make_redirect("/authorization");
     spRes->with_cookie("id", "");
     return spRes;
+}
+
+const std::shared_ptr<httpserver::http_response> proc_file_responce(const httpserver::http_request& crReq)
+{
+    std::map<std::string, std::string> mArgs(crReq.get_args().begin(), crReq.get_args().end());
+    auto upFiller = geology::make_doc_filler("Example.docx");
+
+    upFiller->saveFilledDoc("FilledDoc.docx", mArgs);
+
+    auto vFile = read_file("FilledDoc.docx");
+
+//    httpserver::string_response(new httpserver::deferred_response(vFile, 200, "multipart/form-data"));
+
+    return std::shared_ptr<httpserver::file_response>(new httpserver::file_response("FilledDoc.docx", 200, "text/plain" ));
+}
+
+std::map<std::string, std::string> make_order_form_map(const httpserver::http_request& crReq)
+{
+    std::map<std::string, std::string> mArgs;
+
+    auto strArg = crReq.get_arg("work_type");
+    if (!strArg.empty())
+        mArgs["work_type"] = strArg;
+
+    strArg = crReq.get_arg("order_date");
+    if (!strArg.empty())
+        mArgs["order_date"] = strArg;
+
+    strArg = crReq.get_arg("deadline");
+    if (!strArg.empty())
+        mArgs["deadline"] = strArg;
+
+    strArg = crReq.get_arg("place");
+    if (!strArg.empty())
+        mArgs["place"] = strArg;
+
+    strArg = crReq.get_arg("status");
+    if (!strArg.empty())
+        mArgs["status"] = strArg;
+
+    return mArgs;
 }
 
 }

@@ -33,21 +33,7 @@ private:
     {
         auto mArgs = spReq->getReqArgs();
 
-        int iCnt = 1;
-        if (mArgs.end() != mArgs.find("cnt"))
-        {
-            iCnt = std::stoi(mArgs["cnt"]);
-            mArgs.erase("cnt");
-        }
-
-        std::string strSortType;
-        if (mArgs.end() != mArgs.find("sort_type"))
-        {
-            strSortType = mArgs["sort_type"];
-            mArgs.erase("sort_type");
-        }
-
-        auto Res = m_upDataBaseCtrl->loadOrderGreedy(iCnt, mArgs, strSortType);
+        auto Res = m_upDataBaseCtrl->loadOrderGreedy(spReq->getCnt(), mArgs, spReq->getSortType());
 
         if (Res.getMsg().empty() && Res.getTable().empty())
             spReq->setRes(DataBaseResponce{"Nothing found"});
@@ -59,40 +45,12 @@ private:
     {
         auto mArgs = spReq->getReqArgs();
 
-        int iCnt = 1;
-        if (mArgs.end() != mArgs.find("cnt"))
-        {
-            iCnt = std::stoi(mArgs["cnt"]);
-            mArgs.erase("cnt");
-        }
-
-        std::string strSortType;
-        if (mArgs.end() != mArgs.find("sort_type"))
-        {
-            strSortType = mArgs["sort_type"];
-            mArgs.erase("sort_type");
-        }
-
-        auto Res = m_upDataBaseCtrl->load(eTable, iCnt, mArgs, strSortType);
+        auto Res = m_upDataBaseCtrl->load(eTable, spReq->getCnt(), mArgs, spReq->getSortType());
 
         if (Res.getMsg().empty() && Res.getTable().empty())
             spReq->setRes(DataBaseResponce{"Nothing found"});
         else
             spReq->setRes(std::move(Res));
-    }
-
-    void procLoadSingle(IDataBaseCtrl::enu_tables eTable, const std::shared_ptr<DataBaseRequest>& spReq)
-    {
-        auto mArgs = spReq->getReqArgs();
-
-        int iId = 0;
-        if (mArgs.end() != mArgs.find("id"))
-        {
-            iId= std::stoi(mArgs["id"]);
-            spReq->setRes(m_upDataBaseCtrl->loadById(eTable, iId));
-        }
-        else
-            spReq->setRes(DataBaseResponce{"Id not specialized"});
     }
 
     void procWrite(IDataBaseCtrl::enu_tables eTable, const std::shared_ptr<DataBaseRequest>& spReq)

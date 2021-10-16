@@ -1,26 +1,34 @@
 	function loadOrderTable(Responce)
 	{
 		var message = document.getElementById('Message');
-		message.innerHTML = Responce.message;
+		if (Responce.message == undefined)
+			message.hidden = true;
+		else
+		{
+			message.hidden = false;
+			message.innerHTML = Responce.message;
+		}
 	
 		JsonTable = Responce.table;
 		var table = document.getElementById('TableBlock');
 		table.innerHTML = "";
-		table.innerHTML += "<tr><td>work_type</td><td>order_date</td><td>deadline</td><td>executor</td><td>customer</td><td>status</td><td>place</td></tr>"
+		table.innerHTML += "<tr><td>Тип работ</td><td>Дата заявки</td><td>Дедлайн</td><td>Исполнитель</td><td>Заказчик</td><td>Статус</td><td>Место</td></tr>"
 		for (i = 0; i < JsonTable.length; i++)
 		{
 			var tr = document.createElement("tr");
 			var Row = JsonTable[i];
-			
-			tr.innerHTML += "<td><a href=\"/order/" + Row.id + "\">" + Row.work_type + "</a></td>";
-			tr.innerHTML += "<td><a href=\"/order/" + Row.id + "\">" + Row.order_date + "</a></td>";
-			tr.innerHTML += "<td><a href=\"/order/" + Row.id + "\">" + Row.deadline + "</a></td>";
-			tr.innerHTML += "<td><a href=\"/order/" + Row.id + "\">" + Row.executor + "</a></td>";
-			tr.innerHTML += "<td><a href=\"/order/" + Row.id + "\">" + Row.customer + "</a></td>";
-			tr.innerHTML += "<td><a href=\"/order/" + Row.id + "\">" + Row.status + "</a></td>";
-			tr.innerHTML += "<td><a href=\"/order/" + Row.id + "\">" + Row.place + "</a></td><br>";
+			tr.className  = "TableRow";
+			tr.order = Row.id;
+			tr.innerHTML += "<td class=\"TableCell\">" + Row.work_type + "</td>";
+			tr.innerHTML += "<td class=\"TableCell\">" + Row.order_date + "</td>";
+			tr.innerHTML += "<td class=\"TableCell\">" + Row.deadline + "</td>";
+			tr.innerHTML += "<td class=\"TableCell\">" + Row.executor + "</td>";
+			tr.innerHTML += "<td class=\"TableCell\">" + Row.customer + "</td>";
+			tr.innerHTML += "<td class=\"TableCell\">" + Row.status + "</td>";
+			tr.innerHTML += "<td class=\"TableCell\">" + Row.place + "</td>";
 			
 			table.append(tr);
+			table.lastChild.addEventListener("click", function(){goToOrder(this)});
 		}
 	}
 	function uploadTable()
@@ -28,4 +36,9 @@
 		var message = createMessage();
 		var form = createMyForm(message);
 		sendForm(form, loadOrderTable, window.location.pathname);
+	}
+	function goToOrder(e)
+	{
+		id = e.order;
+		window.location.replace("/order/" + id);
 	}

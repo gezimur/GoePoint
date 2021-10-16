@@ -85,6 +85,7 @@ void PageContainer::initProfilePages(const std::string& strDataTemplate)
 {
     auto strProfileTemplate = m_Reader.readTemplate("templates\\ProfileTemplate.html");
     strProfileTemplate = wrap_in_template(strDataTemplate, strProfileTemplate);
+    strProfileTemplate = wrap_in_template(strProfileTemplate, m_Reader.readTemplate("templates\\ButtonTemplate.html"));
 
     m_strPofileManagerPage = wrap_in_template(strProfileTemplate, "<script src=\"/resources/profiledata.js\"></script>");
     m_strPofileSpecialistPage = wrap_in_template(strProfileTemplate, "<script src=\"/resources/profiledata.js\"></script>");
@@ -92,21 +93,22 @@ void PageContainer::initProfilePages(const std::string& strDataTemplate)
 
 void PageContainer::initOrderPages(const std::string& strDataTemplate)
 {
-    auto strOrderTemplate = m_Reader.readTemplate("templates\\OrderData.html");
+    auto strOrderTemplate = m_Reader.readTemplate("templates\\OrderTemplate.html");
     strOrderTemplate = wrap_in_template(strDataTemplate, strOrderTemplate);
 
-    m_strOrderManagerPage = wrap_in_template(strOrderTemplate, "<script src=\"/resources/managerdata.js\"></script>");
-    m_strOrderSpecialistPage = wrap_in_template(strOrderTemplate, "<script src=\"/resources/specialistdata.js\"></script>");
+    m_strOrderManagerPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonTemplate.html"));
+    m_strOrderManagerPage = wrap_in_template(m_strOrderManagerPage, "<script src=\"/resources/managerdata.js\"></script>");
+
+    m_strOrderSpecialistPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonSpecialistTemplate.html"));
+    m_strOrderSpecialistPage = wrap_in_template(m_strOrderSpecialistPage, "<script src=\"/resources/specialistdata.js\"></script>");
 }
 
 void PageContainer::initOrderListPages(const std::string& strMainTemplate)
 {
-    auto strOrderTemplate = m_Reader.readTemplate("templates\\OrderData.html");
-
     auto strOrderListTemplate = m_Reader.readTemplate("templates\\OrderListTemplate.html");
-    strOrderListTemplate = wrap_in_template(wrap_in_template(strMainTemplate, strOrderListTemplate), strOrderTemplate);
+    strOrderListTemplate = wrap_in_template(strMainTemplate, strOrderListTemplate);
 
-    m_strOrderListManagerPage = wrap_in_template(strOrderListTemplate, "<a href=\"/order/new\"><input class=\"Button\" type=\"submit\" value=\"Add\" form=\"add_new\"></a>");
+    m_strOrderListManagerPage = wrap_in_template(strOrderListTemplate, "<a href=\"/order/new\"><input class=\"Button\" type=\"submit\" value=\"Новая заявка\"></a>");
     m_strOrderListManagerPage = wrap_in_template(m_strOrderListManagerPage, "<script src=\"/resources/loadorderlist.js\"></script>");
 
     m_strOrderListSpecialistPage = wrap_in_template(strOrderListTemplate, "");

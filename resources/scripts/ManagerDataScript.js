@@ -1,9 +1,9 @@
-    Statuses.innerHTML = "<option value=\"0\">Open</option>" +
-						"<option value=\"3\">Close</option>";
+    Statuses.innerHTML = "<option value=\"0\">Создан</option>" +
+						"<option value=\"3\">Закрыт</option>";
 	
 	function editData()
 	{
-		Statuses.readOnly = false;
+		Statuses.disabled = false;
 		Inputs = InputBlock.querySelectorAll("input");
 		for (item  = 0; item < Inputs.length; item++)
 			if (Inputs[item].name != "executor")
@@ -12,16 +12,16 @@
 		Buttons = ButtonBlock.querySelectorAll("input");
 		for (item  = 0; item < Buttons.length; item++)
 		{
-			if (Buttons[item].value == "Edit")
+			if (Buttons[item].value == "Изменить")
 				Buttons[item].hidden = true;
 
-			if (Buttons[item].value == "Cancel" || Buttons[item].value == "Save")
+			if (Buttons[item].value == "Отмена" || Buttons[item].value == "Сохранить")
 				Buttons[item].hidden = false;		
 		}
 	}
 	function cancelEdit()
 	{
-		Statuses.readOnly = true;
+		Statuses.disabled = true;
 		Inputs = InputBlock.querySelectorAll("input");
 		for (item  = 0; item < Inputs.length; item++)
 			Inputs[item].readOnly = true;
@@ -29,19 +29,35 @@
 		Buttons = ButtonBlock.querySelectorAll("input");
 		for (item  = 0; item < Buttons.length; item++)
 		{
-			if (Buttons[item].value == "Edit")
+			if (Buttons[item].value == "Изменить")
 				Buttons[item].hidden = false;
 
-			if (Buttons[item].value == "Cancel" || Buttons[item].value == "Save")
+			if (Buttons[item].value == "Отмена" || Buttons[item].value == "Сохранить")
 				Buttons[item].hidden = true;
 		}
 	}
 	
 	function printData(Responce)
 	{
-		Message.innerHTML = Responce.message;
+		path = window.location.pathname;
+		path = path.substr(path.lastIndexOf("/") + 1);
+		if ("new" == path)
+			Title.innerHTML = "Новый заказ";
+		else
+			Title.innerHTML = "Заказ номер " + path;
+		
+		if (Responce.message == undefined)
+			Message.hidden = true;
+		else
+		{
+			Message.hidden = false;
+			Message.innerHTML = Responce.message;
+		}
 	
-		Inputs = InputBlock.querySelectorAll("input");	
+		Inputs = InputBlock.querySelectorAll("input");
+		if (Responce.table == undefined)
+			return;
+		
 		JsonTable = Responce.table[0];
 		for (i = 0; i < Inputs.length; i++)
 		{
@@ -73,7 +89,7 @@
 		RespMsg = Responce.message;
 		if ("rewrite_customer?" == RespMsg)
 		{
-			res = confirm("A customer with such a passport already exists, but does not correspond to the one sent.\n Do you want to rewrite it?");
+			res = confirm("Заказчик с таким номером пасспорта уже существует.\n Перезапиать данные?");
 			if (res)
 			{
 				saveData(true);

@@ -3,53 +3,11 @@
 <head>
 	<meta charset="UTF-8">
     <title>lab1</title>
+	<link rel="stylesheet" type="text/css" href="/resources/maincss.css">
 </head>
-<style id="style">
-
-.Body
-{
-    background-color:#ddddcc;
-}
-
-.MainBlock
-{
-	--f-width: 300px;
-	--l-width: 500px;
-	background-color: #ddddcc;<!-- ddddcc 000000 -->
-	margin: 40px auto;
-	max-width: 900px;
-	min-width: var(--l-width);
-	min-height: var(--l-width);
-}
-
-.InputBlock
-{
-	background-color: #aaaaaa;
-	
-	width: 200px;
-	
-	margin: 40px auto;
-	padding: auto;
-	
-	text-align: center;
-}
-
-.Title
-{
-	padding: 10px;
-	color: #000000;
-}
-
-.Button
-{
-	margin: 10px;
-	color: #000000;
-}
-
-</style>
 <body class="Body">
 	<div class="MainBlock">
-		<div class="InputBlock" id="InputBlock">
+		<div class="AuthorizationBlock" id="InputBlock">
 			<div class="Title">Authorization</div>
 			<div class="Message" id="Message"></div>
 			<input type="text" name="username" form="Authorization" placeholder="username"><br>
@@ -64,16 +22,9 @@
 				var req = new XMLHttpRequest();
 				req.addEventListener('load', function(e)
 				{
-					if (200 == e.status)
-					{
-						window.location.reload();
-					}
-					else
-					{
-						var data = e.target;
-						var response = data.responseText;
-						receiveFunc(JSON.parse(response));
-					}
+					var data = e.target;
+					var response = data.responseText;
+					receiveFunc(JSON.parse(response));
 				});
 				req.open('POST', url);
 				req.responseType = 'text';
@@ -93,17 +44,24 @@
 				return InputBlock.querySelectorAll("input");
 			}
 	
-			function showMsg(Responce)
+			function procResp(Responce)
 			{
-				Message.hidden = false;
-				Message.innerHTML = Responce.message;
+				if ("Success" == Responce.message)
+				{
+					window.location.replace("/profile");
+				}
+				else
+				{
+					Message.hidden = false;
+					Message.innerHTML = Responce.message;
+				}
 			}
 			function authorization()
 			{
 				var message = createMessage();
 				var form = createMyForm(message, 0);
 				
-				sendForm(form, showMsg, window.location.pathname);
+				sendForm(form, procResp, window.location.pathname);
 			}
 	</script>
 </body>

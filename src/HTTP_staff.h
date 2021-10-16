@@ -23,4 +23,8 @@ const std::shared_ptr<httpserver::http_response> proc_auth_get(const std::string
 
 const std::shared_ptr<httpserver::http_response> proc_exit();
 
+const std::shared_ptr<httpserver::http_response> proc_file_responce(const httpserver::http_request& crReq);
+
+std::map<std::string, std::string> make_order_form_map(const httpserver::http_request& crReq);
+
 } // namespace geology

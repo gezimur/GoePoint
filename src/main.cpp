@@ -4,11 +4,13 @@
 #include <httpserver.hpp>
 
 #include "RequestProcessor.h"
+#include "IDocFiller.h"
 
 class Resources: public httpserver::http_resource
 {
 public:
     Resources()
+        : m_Reader("E:\\code\\GeologyServer\\resources")
     {
         geology::TemplateReader Reader("E:\\code\\GeologyServer\\resources");
         m_strJsSendForm = Reader.readTemplate("scripts\\SendForm.js");
@@ -21,30 +23,48 @@ public:
 
     const std::shared_ptr<httpserver::http_response> render(const httpserver::http_request& crReq)
     {
+//        auto strPath = crReq.get_path();
+//        if ("/resources/sendform.js" == strPath)
+//            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsSendForm));
+//        if ("/resources/loadorderlist.js" == strPath)
+//            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsLoadOrderList));//specialistdata
+//        if ("/resources/profiledata.js" == strPath)
+//            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsProfileData));
+//        if ("/resources/managerdata.js" == strPath)
+//            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsManagerData));
+//        if ("/resources/specialistdata.js" == strPath)
+//            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsManagerData));
+//        if ("/resources/maincss.css" == strPath)
+//            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strCssResource, 200, "text/css"));
+
+//        return std::shared_ptr<httpserver::http_response>(new httpserver::http_response(404, "text/plain"));
         auto strPath = crReq.get_path();
         if ("/resources/sendform.js" == strPath)
-            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsSendForm));
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_Reader.readTemplate("scripts\\SendForm.js")));
         if ("/resources/loadorderlist.js" == strPath)
-            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsLoadOrderList));//specialistdata
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_Reader.readTemplate("scripts\\LoadOrderList.js")));//specialistdata
         if ("/resources/profiledata.js" == strPath)
-            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsProfileData));
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_Reader.readTemplate("scripts\\ProfileScript.js")));
         if ("/resources/managerdata.js" == strPath)
-            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsManagerData));
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_Reader.readTemplate("scripts\\ManagerDataScript.js")));
         if ("/resources/specialistdata.js" == strPath)
-            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strJsManagerData));
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_Reader.readTemplate("scripts\\SpecialistDataScript.js")));
         if ("/resources/maincss.css" == strPath)
-            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_strCssResource, 200, "text/css"));
-
+            return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(m_Reader.readTemplate("css\\MainCss.css"), 200, "text/css"));
         return std::shared_ptr<httpserver::http_response>(new httpserver::http_response(404, "text/plain"));
     }
 
 private:
+    geology::TemplateReader m_Reader;
+
     std::string m_strJsSendForm;
     std::string m_strJsLoadOrderList;
     std::string m_strCssResource;
     std::string m_strJsProfileData;
     std::string m_strJsManagerData;
     std::string m_strJsSpecialistData;
+
+
 };
 
 class Res404: public httpserver::http_resource
@@ -78,6 +98,7 @@ int main()
         WebServer.register_resource("/resources/loadorderlist.js", &ResourceProcessor);
         WebServer.register_resource("/resources/profiledata.js", &ResourceProcessor);
         WebServer.register_resource("/resources/managerdata.js", &ResourceProcessor);
+        WebServer.register_resource("/resources/specialistdata.js", &ResourceProcessor);
         WebServer.register_resource("/resources/maincss.css", &ResourceProcessor);
 
         geology::RequestProcessor PageProcessor;
@@ -91,6 +112,7 @@ int main()
         WebServer.register_resource("/order/[0-9]+/save", &PageProcessor);
         WebServer.register_resource("/order/new", &PageProcessor);
         WebServer.register_resource("/order/new/save", &PageProcessor);
+        WebServer.register_resource("/document/[0-9]+", &PageProcessor);
 
         Res404 NotFound;
 

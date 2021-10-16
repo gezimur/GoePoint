@@ -1,6 +1,9 @@
 #include "SpecialistProcessor.h"
 
+#include <assert.h>
+
 #include  "HTTP_staff.h"
+
 
 namespace geology
 {
@@ -35,30 +38,63 @@ SpecialistProcessor::responce_type SpecialistProcessor::processPOST(const httpse
 
     if (2 == vPath.size())
         return procGetOrder(vPath[1]);
-//    if (3 == vPath.size())
-//        return procSaveOrder(vPath[1]);
+    if (3 == vPath.size())
+        return procSaveOrder(crReq, vPath[1]);
 
     return proc_msg_responce("Invalid request", 200);
 }
 
 SpecialistProcessor::responce_type SpecialistProcessor::procGetOrder(const std::string& strOrderId)
 {
-    auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::get_order, {{"id", strOrderId}});
-    m_spDataBase->pushReq(spReq);
+    DataBaseResponce Res;
 
-    auto Res = spReq->waitAndGetRes();
+    if ("new" != strOrderId)
+    {
+        auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::get_order_greedy, {{"orders.id", strOrderId}});
+        m_spDataBase->pushReq(spReq);
+
+        Res = spReq->waitAndGetRes();
+    }
 
     return proc_json_responce(Res, 200);
 }
 
-//SpecialistProcessor::responce_type SpecialistProcessor::procSaveOrder(const std::string& strOrderId)
-//{
-//    auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::save_order, {{"id", strOrderId}}); ///@todo
-//    m_spDataBase->pushReq(spReq);
+SpecialistProcessor::responce_type SpecialistProcessor::procSaveOrder(const httpserver::http_request& crReq, const std::string& strOrderId)
+{
+    auto Order = loadOrder(strOrderId);
 
-//    auto Res = spReq->waitAndGetRes();
+    assert(!Order.getTable().empty());
 
-//    return proc_json_responce(Res, 200);
-//}
+    if (!Order.getTable()[0].at("executor").empty() && Order.getTable()[0].at("executor") != crReq.get_cookie("id"))
+        return proc_msg_responce("You can't do this", 200);
+
+    auto Res = changeOrder(crReq, Order);
+
+    return proc_json_responce(Res, 200);
+}
+
+DataBaseResponce SpecialistProcessor::loadOrder(const std::string& strOrderId)
+{
+    auto eReqType = DataBaseRequest::data_base_req_type::get_order;
+
+    auto spReq = DataBaseRequest::make(eReqType, {{"id", strOrderId}});
+    m_spDataBase->pushReq(spReq);
+
+    return spReq->waitAndGetRes();
+}
+
+DataBaseResponce SpecialistProcessor::changeOrder(const httpserver::http_request& crReq, const DataBaseResponce& crOrder)
+{
+    std::map<std::string, std::string> mArgs(crOrder.getTable()[0].begin(), crOrder.getTable()[0].end()); ///@todo
+    mArgs["executor"] = crReq.get_cookie("id");
+    mArgs["status"] = crReq.get_arg("status");
+
+    auto eReqType = DataBaseRequest::data_base_req_type::write_order;
+
+    auto spReq = DataBaseRequest::make(eReqType, mArgs); ///@todo
+    m_spDataBase->pushReq(spReq);
+
+    return spReq->waitAndGetRes();
+}
 
 } // namespace geology

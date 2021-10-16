@@ -1,34 +1,143 @@
+:root
+{
+	--header-height: 40px;
+	--header-padding: 10px;
+	
+	--main-width: 300px;
+	--main-height: 500px;
+	--input-width: 200px;
+	--button-width: 200px;
+}
+
 .Body
 {
     background-color:#aaaaaa;
+	font-size: 20px;
+	margin: 0;
 }
 
 .HeadLine
 {
-	background-color:#888888;
+	background-color:#555555;
 	width: 100%;
+	height: var(--header-height);
 	text-align: left;
-	padding: 20px;
+
+	padding-top: var(--header-padding);
+	padding-left: var(--header-padding);
+	position: fixed;
+	top: 0;
+    right: 0;
+    left: 0;
+	z-index: 9999;
+}
+
+.HeaderText
+{
+	display: inline-block;
+	margin-left: 20px;
+	font-size: 25px;
+	text-shadow: 3px 3px 3px black;
 }
 
 .MainBlock
 {
-	--f-width: 300px;
-	--l-width: 500px;
 	background-color: #999999;
+	
 	margin: 40px auto;
-	max-width: 900px;
-	min-width: var(--l-width);
-	min-height: var(--l-width);
+	margin-top: calc(var(--header-height) + var(--header-padding));
+	
+	width: 100%;
+	min-width: var(--main-width);
+	min-height: var(--main-height);
+	padding: 20px auto;
 }
 
-.DataList
+.Title
 {
-	background-color: #bbbbbb;
+	display: inline-block;
+	background-color: #888888;
+	margin: 0px auto;
+	width: 100%;
+	text-align: center;
+	font-size: 25px;
 }
 
-td
+.AuthorizationBlock
 {
-	width: 200px;
-	margin: 10px;
+	text-align: center;
+	background-color: #888888;
+	width: var(--input-width);
+	margin-top: 40px;
+	margin: auto;
+}
+
+.Message
+{
+	text-align: center;
+	width: 100%;
+	background-color: #888888;
+	margin: 0px auto;
+}
+
+.Role
+{
+	font-size: 22px;
+	margin-bottom: 20px;
+}
+
+.InputBlock
+{
+	margin-top: 0;
+	padding-top: 0px;
+	padding-bottom: 40px;
+	text-align: center;
+	background-color: #888888;
+	width: 100%;
+	margin: 0px auto;
+}
+
+.FieldsBlock
+{
+	text-align: left;
+	display: inline-block;
+	margin: 0px 40px;
+}
+
+.ButtonBlock
+{
+	background-color: #888888;
+	width: 100%;
+	margin: 0px auto;
+	text-align: center;
+}
+
+.TableBlock
+{
+	margin: 40px auto;
+	padding-top: 0;
+	width: 98%;
+	margin-left: 1%;
+	border-collapse: collapse;
+}
+
+.TableRow
+{
+	text-align:left;
+	
+	border: 2px solid #000000;
+	border-radius: 15px;
+	
+	background-color: #888888;
+}
+
+.TableRow:hover
+{
+	background-color: #888f8f;
+}
+
+a
+{
+	color: #dddddd;
+	text-decoration: none;
 }

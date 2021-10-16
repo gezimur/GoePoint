@@ -5,6 +5,15 @@
 namespace geology
 {
 
+bool is_equals(const std::map<std::string, std::string>& mLeft, const std::map<std::string, std::string>& mRight)
+{
+    return std::all_of(mLeft.begin(), mLeft.end(), [&mRight](const std::pair<std::string, std::string>& prLeft)
+    {
+        auto itRight = mRight.find(prLeft.first);
+        return mRight.end() != itRight && prLeft.second == itRight->second;
+    });
+}
+
 std::map<std::string, std::string> make_customer_args(const httpserver::http_request& crReq)
 {
     std::map<std::string, std::string> mArgs;
@@ -36,33 +45,6 @@ std::map<std::string, std::string> make_customer_args(const httpserver::http_req
     strArg = crReq.get_arg("email");
     if (!strArg.empty())
         mArgs["email"] = strArg;
-
-    return mArgs;
-}
-
-std::map<std::string, std::string> make_order_form_map(const httpserver::http_request& crReq)
-{
-    std::map<std::string, std::string> mArgs;
-
-    auto strArg = crReq.get_arg("work_type");
-    if (!strArg.empty())
-        mArgs["work_type"] = strArg;
-
-    strArg = crReq.get_arg("order_date");
-    if (!strArg.empty())
-        mArgs["order_date"] = strArg;
-
-    strArg = crReq.get_arg("deadline");
-    if (!strArg.empty())
-        mArgs["deadline"] = strArg;
-
-    strArg = crReq.get_arg("place");
-    if (!strArg.empty())
-        mArgs["place"] = strArg;
-
-    strArg = crReq.get_arg("status");
-    if (!strArg.empty())
-        mArgs["status"] = strArg;
 
     return mArgs;
 }
@@ -109,7 +91,7 @@ ManagerProcessor::responce_type ManagerProcessor::procGetOrder(const std::string
 
     if ("new" != strOrderId)
     {
-        auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::get_order, {{"orders.id", strOrderId}});
+        auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::get_order_greedy, {{"orders.id", strOrderId}});
         m_spDataBase->pushReq(spReq);
 
         Res = spReq->waitAndGetRes();
@@ -162,7 +144,7 @@ ManagerProcessor::responce_type ManagerProcessor::procOrderCustomer(const std::m
     }
     else
     {
-        if (FindCustomerRes.getTable()[0] != mCustumerArgs)
+        if (!is_equals(mCustumerArgs, FindCustomerRes.getTable()[0]))
         {
             if (bRewrite)
                 return proc_msg_responce("rewrite_customer?", 200);
@@ -176,7 +158,7 @@ ManagerProcessor::responce_type ManagerProcessor::procOrderCustomer(const std::m
 
 DataBaseResponce ManagerProcessor::findCustomer(const std::map<std::string, std::string>& mCustumerArgs)
 {
-    auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::get_customer_list, mCustumerArgs); ///@todo
+    auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::get_customer, mCustumerArgs); ///@todo
     m_spDataBase->pushReq(spReq);
 
     return spReq->waitAndGetRes();

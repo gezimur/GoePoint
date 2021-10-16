@@ -22,7 +22,11 @@ public:
 private:
     responce_type procGetOrder(const std::string& strOrderId);
 
-//    responce_type procSaveOrder(const std::string& strOrderId);
+    responce_type procSaveOrder(const httpserver::http_request& crReq, const std::string& strOrderId);
+
+    DataBaseResponce loadOrder(const std::string& strOrderId);
+
+    DataBaseResponce changeOrder(const httpserver::http_request& crReq, const DataBaseResponce& crOrder);
 
     std::shared_ptr<GeologyDataBase> m_spDataBase;
 

@@ -71,6 +71,9 @@ RequestProcessor::responce_type RequestProcessor::render_POST(const httpserver::
     if ("/profile/save" == crReq.get_path())
         return procProfileSave(crReq);
 
+    if ("/document/1" == crReq.get_path()) ///@todo
+        return proc_file_responce(crReq);
+
     auto strRole = Res.getTable()[0].at("role");
 
     if ("0" == strRole) //manager
