@@ -1,0 +1,57 @@
+			<div class="FieldsBlock">
+				<div class="FieldsBlock">
+					<div class="FieldsBlock">
+							Тип работ</br>
+							<input type="text" name="work_type" form="upload_data" placeholder="Тип работ" /></br>
+							Место</br>
+							<input type="text" name="place" form="upload_data" placeholder="Место" /></br>
+					</div>
+					<div class="FieldsBlock">
+							Дата заявки</br>
+							<input type="date" name="order_date" form="upload_data" placeholder="Дата заявки" /></br>
+							Деадлайн</br>
+							<input type="date" name="deadline" form="upload_data" placeholder="Деадлайн" /></br>
+					</div>
+					<div class="FieldsBlock">
+							Исполниель</br>
+							<input type="text" name="executor" form="upload_data" placeholder="Исполниель" /></br>
+							Статус</br>
+							<input name="status" id="Status" hidden="true"/>
+							<select id="Statuses" onchange="setValFunc(this)" value="0">
+								<option value=""></option>
+								<option value="0">Создана</option>
+								<option value="1">В Работе</option>
+								<option value="2">Закончена</option>
+								<option value="3">Закрыта</option>
+							</select></br>
+					</div>
+				</div>
+				<div class="FieldsBlock">
+					<div class="FieldsBlock">
+							Заказчик</br>
+							<input type="text" name="customer" form="upload_data" placeholder="Заказчик" /></br>
+							Номер пасспорта</br>
+							<input type="text" name="passport_number" form="upload_data" placeholder="Номер пасспорта" /><br>
+							Выдан</br>
+							<input type="text" name="passport_gived" form="upload_data" placeholder="Выдан" /><br>
+							Дата выдачи</br>
+							<input type="date" name="passport_date" form="upload_data" placeholder="Дата выдачи" /><br>
+					</div>
+					<div class="FieldsBlock">
+							Снилс</br>
+							<input type="text" name="snils" form="upload_data" placeholder="snils" /><br>
+							Телефон</br>
+							<input type="text" name="phone" form="upload_data" placeholder="phone" /><br>
+							Почта</br>
+							<input type="text" name="email" form="upload_data" placeholder="email" /><br>
+					</div>
+				</div>
+			</div>
+			<script>
+
+			function setValFunc(select)
+			{
+				Status.value = select.value;
+			}
+
+			</script>
