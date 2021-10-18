@@ -65,7 +65,8 @@ std::map<std::string, std::string> make_search_form_map(const httpserver::http_r
 }
 
 CommonProcessor::CommonProcessor(const std::shared_ptr<GeologyDataBase>& spDataBase, const std::shared_ptr<PageContainer>& spPages, const std::vector<std::string>& vRegisteredUrl)
-    : m_spDataBase(spDataBase),
+    : m_upDocFiller(make_doc_filler("..\\resources\\doc")),
+      m_spDataBase(spDataBase),
       m_spPages(spPages),
       m_vRegisteredUrl(vRegisteredUrl)
 {
@@ -91,6 +92,9 @@ CommonProcessor::responce_type CommonProcessor::processPOST(const httpserver::ht
 
     if ("/order_list" == strPath)
         return procOrderList(crReq);
+
+    if ("/doc_list" == strPath)
+        return procDocList(crReq);
 
     return nullptr;
 }
@@ -127,8 +131,31 @@ CommonProcessor::responce_type CommonProcessor::procOrderList(const httpserver::
     return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(make_json(Res), 200, "text/plain"));
 }
 
+CommonProcessor::responce_type CommonProcessor::procDocList(const httpserver::http_request& /*crReq*/)
+{
+    auto vFileList = make_file_list("..\\resources\\doc");
+
+    return std::shared_ptr<httpserver::http_response>(new httpserver::string_response(make_json(vFileList), 200, "text/plain"));
+}
+
+CommonProcessor::responce_type CommonProcessor::procDoc(const httpserver::http_request& crReq, const std::string& strFile)
+{
+    auto vArgs = crReq.get_args();
+    std::map<std::string, std::string> mArgs(vArgs.begin(), vArgs.end());
+    auto upFiller = geology::make_doc_filler("..\\resources\\doc\\" + strFile);
+
+    upFiller->saveFilledDoc("FilledDoc.docx", mArgs);
+
+    return std::shared_ptr<httpserver::file_response>(new httpserver::file_response("FilledDoc.docx", 200, "application/octet-stream" ));
+}
+
 CommonProcessor::responce_type CommonProcessor::procAuthLvl(const httpserver::http_request& crReq)
 {
+    auto vPath = crReq.get_path_pieces();
+
+    if (2 == vPath.size() && "document" == vPath[0])
+            return procDoc(crReq, vPath[1]);
+
     if (crReq.get_cookie("id").empty())
         return proc_auth_get(crReq.get_path(), m_spPages->getAuthorizationPage());
     else

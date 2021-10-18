@@ -10,9 +10,9 @@ class Resources: public httpserver::http_resource
 {
 public:
     Resources()
-        : m_Reader("E:\\code\\GeologyServer\\resources")
+        : m_Reader("..\\resources")
     {
-        geology::TemplateReader Reader("E:\\code\\GeologyServer\\resources");
+        geology::TemplateReader Reader("..\\resources");
         m_strJsSendForm = Reader.readTemplate("scripts\\SendForm.js");
         m_strJsLoadOrderList = Reader.readTemplate("scripts\\LoadOrderList.js");
         m_strJsProfileData = Reader.readTemplate("scripts\\ProfileScript.js");
@@ -71,7 +71,7 @@ class Res404: public httpserver::http_resource
 {
 public:
     Res404()
-        : m_Pages("E:\\code\\GeologyServer\\resources")
+        : m_Pages("..\\resources")
     {
 
     }
@@ -112,7 +112,8 @@ int main()
         WebServer.register_resource("/order/[0-9]+/save", &PageProcessor);
         WebServer.register_resource("/order/new", &PageProcessor);
         WebServer.register_resource("/order/new/save", &PageProcessor);
-        WebServer.register_resource("/document/[0-9]+", &PageProcessor);
+        WebServer.register_resource("/doc_list", &PageProcessor);
+        WebServer.register_resource("/document/[а-яА-Яa-zA-Z0-9\.]+", &PageProcessor);
 
         Res404 NotFound;
 

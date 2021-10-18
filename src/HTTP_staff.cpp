@@ -1,6 +1,6 @@
 #include "HTTP_staff.h"
 
-#include "IDocFiller.h"
+#include <boost/filesystem.hpp>
 
 namespace geology
 {
@@ -12,6 +12,22 @@ int get_req_type(const httpserver::http_request& crReq)
         return -1;
 
     return std::stoi(strTypeNum);
+}
+
+std::string make_json(const std::vector<std::string>& vVal)
+{
+    std::string strJson;
+
+    strJson += "[";
+    for (auto itVal = vVal.begin(); itVal != vVal.end(); ++itVal)
+    {
+        if (vVal.begin() != itVal)
+            strJson += ",";
+        strJson += "\"" + *itVal + "\"";
+    }
+    strJson += "]";
+
+    return strJson;
 }
 
 std::string make_json(const DataBaseResponce& crResponce)
@@ -88,20 +104,6 @@ const std::shared_ptr<httpserver::http_response> proc_exit()
     return spRes;
 }
 
-const std::shared_ptr<httpserver::http_response> proc_file_responce(const httpserver::http_request& crReq)
-{
-    std::map<std::string, std::string> mArgs(crReq.get_args().begin(), crReq.get_args().end());
-    auto upFiller = geology::make_doc_filler("Example.docx");
-
-    upFiller->saveFilledDoc("FilledDoc.docx", mArgs);
-
-    auto vFile = read_file("FilledDoc.docx");
-
-//    httpserver::string_response(new httpserver::deferred_response(vFile, 200, "multipart/form-data"));
-
-    return std::shared_ptr<httpserver::file_response>(new httpserver::file_response("FilledDoc.docx", 200, "text/plain" ));
-}
-
 std::map<std::string, std::string> make_order_form_map(const httpserver::http_request& crReq)
 {
     std::map<std::string, std::string> mArgs;
@@ -127,6 +129,15 @@ std::map<std::string, std::string> make_order_form_map(const httpserver::http_re
         mArgs["status"] = strArg;
 
     return mArgs;
+}
+
+std::vector<std::string> make_file_list(const std::string& strDirPath)
+{
+    std::vector<std::string> vRes;
+    for (boost::filesystem::directory_iterator itr(strDirPath); itr!=boost::filesystem::directory_iterator(); ++itr)
+        vRes.push_back(itr->path().filename().string());
+
+    return vRes;
 }
 
 }

@@ -5,6 +5,7 @@
 
 #include "GeologyDataBase/GeologyDataBase.h"
 #include "PageContainer.h"
+#include "IDocFiller.h"
 
 namespace geology
 {
@@ -20,13 +21,18 @@ public:
     responce_type processPOST(const httpserver::http_request& crReq);
 
 private:
-    CommonProcessor::responce_type procAuthorization(const httpserver::http_request& crReq);
+    responce_type procAuthorization(const httpserver::http_request& crReq);
+    responce_type procOrderList(const httpserver::http_request& crReq);
 
-    CommonProcessor::responce_type procOrderList(const httpserver::http_request& crReq);
+    responce_type procDocList(const httpserver::http_request& /*crReq*/);
+
+    responce_type procDoc(const httpserver::http_request& crReq, const std::string& strFile);
 
     responce_type procAuthLvl(const httpserver::http_request& crReq);
 
     responce_type procCommonLvl(const httpserver::http_request& crReq);
+
+    std::unique_ptr<IDocFiller> m_upDocFiller;
 
     std::shared_ptr<GeologyDataBase> m_spDataBase;
 

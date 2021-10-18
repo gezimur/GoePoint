@@ -7,16 +7,20 @@ INCLUDEPATH +=  $$PWD/../libcppmicrohttpd/include \
                 $$PWD/../libhttpserver/src \
                 $$PWD/../GeologyDatabase/include \
                 $$PWD/../DocFiller/include \
+                $$PWD/../boost_1_76_0
 
 LIBS += -L$$PWD/../PostgreSQL/lib/ \
         -L$$PWD/../GeologyDatabase/lib \
         -L$$PWD/../DocFiller/lib \
         -L$$PWD/../libhttpserver/lib \
-        -L$$PWD/../libcppmicrohttpd/lib
+        -L$$PWD/../libcppmicrohttpd/lib \
+        -L$$PWD/../boost_1_76_0/lib
 
 LIBS += -lpq -lGeologyDatabase_lib -lDocFiller_lib
 
-LIBS += -lws2_32 -lhttpserver -lmicrohttpd
+LIBS += -lhttpserver -lmicrohttpd
+
+LIBS += -lboost-filesystem
 
 SOURCES += \
         $$PWD/src/Common/ThreadContainer.cpp \

@@ -34,7 +34,7 @@ std::map<std::string, std::string> make_save_user_form_map(const httpserver::htt
 
 RequestProcessor::RequestProcessor()
     : m_spDataBase(std::make_shared<GeologyDataBase>(geology::ConnectionParams{})), ///@todo make like param
-      m_spPages(std::make_shared<PageContainer>("E:\\code\\GeologyServer\\resources")), ///@todo make like param
+      m_spPages(std::make_shared<PageContainer>("..\\resources")), ///@todo make like param
       m_vRegisteredUrl{"/", "/authorization", "/profile", "/profile/save", "/order_list", "/order", "/exit"},
       m_CommonProcessor(m_spDataBase, m_spPages, m_vRegisteredUrl),
       m_ManagerProcessor(m_spDataBase, m_spPages, m_vRegisteredUrl),
@@ -70,9 +70,6 @@ RequestProcessor::responce_type RequestProcessor::render_POST(const httpserver::
 
     if ("/profile/save" == crReq.get_path())
         return procProfileSave(crReq);
-
-    if ("/document/1" == crReq.get_path()) ///@todo
-        return proc_file_responce(crReq);
 
     auto strRole = Res.getTable()[0].at("role");
 

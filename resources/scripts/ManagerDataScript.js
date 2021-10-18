@@ -65,12 +65,52 @@
 		}
 	}
 	
+	function loadDoc()
+	{
+		var FileName = DocList.value;
+		var url = "/document/" + FileName + "?";
+		var Args = createMessage();
+		for (i = 0; i < Args.length; i++)
+		{
+			if (i > 0)
+				url += "&";
+			url += Args[i].name + "=" + Args[i].value;
+		}
+		window.open(url);
+	}
+	
+	function makeFileList(Responce)
+	{
+		path = window.location.pathname;
+		path = path.substr(path.lastIndexOf("/") + 1);
+		if ("new" == path || Responce.length == 0)
+		{
+			DocList.hidden = "true";
+			LoadDoc.hidden = "true";
+			return ;
+		}
+			
+		DocList.hidden = "false";
+		LoadDoc.hidden = "false";
+		
+		for (i = 0; i < Responce.length; i++)
+		{
+			var Option = document.createElement("option");
+			Option.value = Responce[i];
+			Option.innerHTML = Responce[i];
+			DocList.append(Option);
+		}
+		
+	}
+	
 	function uploadData()
 	{
 		var message = createMessage();
-		var form = createMyForm(message, 0);
+		var form = createMyForm(message);
 		
 		sendForm(form, printData, window.location.pathname);
+		
+		sendForm(new FormData(), makeFileList, "/doc_list");
 	}
 	
 	function saveData(bRewriteCustomer = false)

@@ -96,10 +96,10 @@ void PageContainer::initOrderPages(const std::string& strDataTemplate)
     auto strOrderTemplate = m_Reader.readTemplate("templates\\OrderTemplate.html");
     strOrderTemplate = wrap_in_template(strDataTemplate, strOrderTemplate);
 
-    m_strOrderManagerPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonTemplate.html"));
+    m_strOrderManagerPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonTemplate.html") + "<select id=\"DocList\" value=\"\"></select></br><input id=\"LoadDoc\" class=\"Button\" type=\"submit\" value=\"Скачать документ\" onclick=\"loadDoc()\" />");
     m_strOrderManagerPage = wrap_in_template(m_strOrderManagerPage, "<script src=\"/resources/managerdata.js\"></script>");
 
-    m_strOrderSpecialistPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonSpecialistTemplate.html"));
+    m_strOrderSpecialistPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonSpecialistTemplate.html") + "<select id=\"DocList\" value=\"\"></select></br><input id=\"LoadDoc\" class=\"Button\" type=\"submit\" value=\"Скачать документ\" onclick=\"loadDoc()\" />");
     m_strOrderSpecialistPage = wrap_in_template(m_strOrderSpecialistPage, "<script src=\"/resources/specialistdata.js\"></script>");
 }
 

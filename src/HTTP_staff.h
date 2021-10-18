@@ -9,6 +9,8 @@ namespace geology
 
 int get_req_type(const httpserver::http_request& crReq);
 
+std::string make_json(const std::vector<std::string>& vVal);
+
 std::string make_json(const DataBaseResponce& crResponce);
 
 std::shared_ptr<httpserver::http_response> make_redirect(const std::string& strLocation);
@@ -23,8 +25,8 @@ const std::shared_ptr<httpserver::http_response> proc_auth_get(const std::string
 
 const std::shared_ptr<httpserver::http_response> proc_exit();
 
-const std::shared_ptr<httpserver::http_response> proc_file_responce(const httpserver::http_request& crReq);
-
 std::map<std::string, std::string> make_order_form_map(const httpserver::http_request& crReq);
+
+std::vector<std::string> make_file_list(const std::string& strDirPath);
 
 } // namespace geology
