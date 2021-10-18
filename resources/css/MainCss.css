@@ -133,7 +133,9 @@
 
 .TableRow:hover
 {
-	background-color: #888f8f;
+	background-color: #000000;
+	color: #ffcc00;
+	border: 2px solid #ffcc00;
 }
 
 a

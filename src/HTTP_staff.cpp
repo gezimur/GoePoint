@@ -1,9 +1,23 @@
 #include "HTTP_staff.h"
 
+#include <regex>
+
 #include <boost/filesystem.hpp>
 
 namespace geology
 {
+
+std::string make_safe_str(const std::string& str)
+{
+    std::string strRes;
+
+    std::regex Regex("[,\";]");
+
+       // write the results to an output iterator
+    std::regex_replace(std::back_inserter(strRes), str.begin(), str.end(), Regex, "\\\\\\$&");
+
+    return strRes;
+}
 
 int get_req_type(const httpserver::http_request& crReq)
 {
@@ -37,7 +51,7 @@ std::string make_json(const DataBaseResponce& crResponce)
     strJson += "{";
 
     if (!crResponce.getMsg().empty())
-        strJson += "\"message\" : \"" + crResponce.getMsg() + "\"";
+        strJson += "\"message\" : \"" + make_safe_str(crResponce.getMsg()) + "\"";
 
     const auto& vRows = crResponce.getTable();
     if (vRows.empty())
@@ -110,27 +124,27 @@ std::map<std::string, std::string> make_order_form_map(const httpserver::http_re
 
     auto strArg = crReq.get_arg("work_class");
     if (!strArg.empty())
-        mArgs["work_class"] = strArg;
+        mArgs["work_class"] = make_safe_str(strArg);
 
     strArg = crReq.get_arg("work_type");
     if (!strArg.empty())
-        mArgs["work_type"] = strArg;
+        mArgs["work_type"] = make_safe_str(strArg);
 
     strArg = crReq.get_arg("order_date");
     if (!strArg.empty())
-        mArgs["order_date"] = strArg;
+        mArgs["order_date"] = make_safe_str(strArg);
 
     strArg = crReq.get_arg("deadline");
     if (!strArg.empty())
-        mArgs["deadline"] = strArg;
+        mArgs["deadline"] = make_safe_str(strArg);
 
     strArg = crReq.get_arg("place");
     if (!strArg.empty())
-        mArgs["place"] = strArg;
+        mArgs["place"] = make_safe_str(strArg);
 
     strArg = crReq.get_arg("status");
     if (!strArg.empty())
-        mArgs["status"] = strArg;
+        mArgs["status"] = make_safe_str(strArg);
 
     return mArgs;
 }

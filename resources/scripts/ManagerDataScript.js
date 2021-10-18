@@ -85,13 +85,13 @@
 		path = path.substr(path.lastIndexOf("/") + 1);
 		if ("new" == path || Responce.length == 0)
 		{
-			DocList.hidden = "true";
-			LoadDoc.hidden = "true";
+			DocList.visibility = "hidden";
+			LoadDoc.visibility = "hidden";
 			return ;
 		}
 			
-		DocList.hidden = "false";
-		LoadDoc.hidden = "false";
+		DocList.visibility = "visible";
+		LoadDoc.visibility = "visible";
 		
 		for (i = 0; i < Responce.length; i++)
 		{
