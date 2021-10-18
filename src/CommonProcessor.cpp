@@ -9,9 +9,13 @@ std::map<std::string, std::string> make_search_form_map(const httpserver::http_r
 {
     std::map<std::string, std::string> mArgs;
 
-    auto strArg = crReq.get_arg("work_type");
+    auto strArg = crReq.get_arg("work_class");
     if (!strArg.empty())
-        mArgs["work_type"] = strArg;
+        mArgs["work_class"] = strArg;
+
+    strArg = crReq.get_arg("work_type");
+        if (!strArg.empty())
+            mArgs["work_type"] = strArg;
 
     strArg = crReq.get_arg("order_date");
     if (!strArg.empty())
@@ -29,7 +33,11 @@ std::map<std::string, std::string> make_search_form_map(const httpserver::http_r
     if (!strArg.empty())
         mArgs["status"] = strArg;
 
-    strArg = crReq.get_arg("executor");
+    strArg = crReq.get_arg("ingeneer");
+    if (!strArg.empty())
+        mArgs["users.full_name"] = strArg;
+
+    strArg = crReq.get_arg("fielder");
     if (!strArg.empty())
         mArgs["users.full_name"] = strArg;
 

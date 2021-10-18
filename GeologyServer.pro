@@ -3,22 +3,23 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-INCLUDEPATH +=  $$PWD/../libcppmicrohttpd/include \
+INCLUDEPATH +=  $$PWD/../libmicrohttp/include \
                 $$PWD/../libhttpserver/src \
-                $$PWD/../GeologyDatabase/include \
+                $$PWD/../GoePointDataBase/include \
                 $$PWD/../DocFiller/include \
-                $$PWD/../boost_1_76_0
+                $$PWD/../../boost_1_77_0
 
-LIBS += -L$$PWD/../PostgreSQL/lib/ \
-        -L$$PWD/../GeologyDatabase/lib \
+LIBS += -L$$PWD/../../PostgreSQL/14/lib/ \
+        -L$$PWD/../GoePointDataBase/lib \
         -L$$PWD/../DocFiller/lib \
         -L$$PWD/../libhttpserver/lib \
-        -L$$PWD/../libcppmicrohttpd/lib \
-        -L$$PWD/../boost_1_76_0/lib
+        -L$$PWD/../libmicrohttp/lib \
+        -L$$PWD/../libmicrohttp/bin \
+        -L$$PWD/../../boost_1_77_0/lib
 
 LIBS += -lpq -lGeologyDatabase_lib -lDocFiller_lib
 
-LIBS += -lhttpserver -lmicrohttpd
+LIBS += -lhttserver -lmicrohttpd
 
 LIBS += -lboost-filesystem
 

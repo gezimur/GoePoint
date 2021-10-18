@@ -3,21 +3,23 @@
 		<div class="FieldsBlock">
 			<div class="FieldsBlock">
 					Тип работ</br>
-					<input type="text" name="work_type" form="upload_data" placeholder="Тип работ" /></br>
-					Место</br>
+					<input type="text" name="work_class" form="upload_data" placeholder="Тип работ" /></br>
+					Вид работ</br>
+					<input type="text" name="work_type" form="upload_data" placeholder="Вид работ" /></br>
+					Местоположение</br>
 					<input type="text" name="place" form="upload_data" placeholder="Место" /></br>
 			</div>
 			<div class="FieldsBlock">
-					Дата заказа</br>
-					<input type="date" name="order_date" form="upload_data" placeholder="Дата заявки" /></br>
-					Деадлайн</br>
-					<input type="date" name="deadline" form="upload_data" placeholder="Деадлайн" /></br>
+				Дата заявки</br>
+				<input type="date" name="order_date" form="upload_data" placeholder="Дата заявки" /></br>
+				Срок выполнения</br>
+				<input type="date" name="deadline" form="upload_data" placeholder="Срок выполнения" /></br>
 			</div>
 			<div class="FieldsBlock">
-					Исполниель</br>
-					<input type="text" name="executor" form="upload_data" placeholder="Исполниель" /></br>
-					Заказчик</br>
-					<input type="text" name="customer" form="upload_data" placeholder="Заказчик" /></br>
+				Инженер</br>
+				<input type="text" name="ingeneer" form="upload_data" placeholder="Исполнитель" /></br>
+				Полевик</br>
+				<input type="text" name="fielder" form="upload_data" placeholder="Исполнитель" /></br>
 			</div>
 			<div class="FieldsBlock">
 				Статус</br>
@@ -25,8 +27,8 @@
 				<select id="Statuses" onchange="setValFunc(this)" value="0">
 					<option value=""></option>
 					<option value="0">Создан</option>
-					<option value="1">В Работе</option>
-					<option value="2">Выполнен</option>
+					<option value="1">В поле</option>
+					<option value="2">Камеральная съемка</option>
 					<option value="3">Закрыт</option>
 				</select></br>
 			</div>

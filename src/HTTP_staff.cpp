@@ -108,7 +108,11 @@ std::map<std::string, std::string> make_order_form_map(const httpserver::http_re
 {
     std::map<std::string, std::string> mArgs;
 
-    auto strArg = crReq.get_arg("work_type");
+    auto strArg = crReq.get_arg("work_class");
+    if (!strArg.empty())
+        mArgs["work_class"] = strArg;
+
+    strArg = crReq.get_arg("work_type");
     if (!strArg.empty())
         mArgs["work_type"] = strArg;
 
