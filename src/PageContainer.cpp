@@ -96,10 +96,10 @@ void PageContainer::initOrderPages(const std::string& strDataTemplate)
     auto strOrderTemplate = m_Reader.readTemplate("templates\\OrderTemplate.html");
     strOrderTemplate = wrap_in_template(strDataTemplate, strOrderTemplate);
 
-    m_strOrderManagerPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonTemplate.html") + "<select id=\"DocList\" value=\"\"></select></br><input id=\"LoadDoc\" class=\"Button\" type=\"submit\" value=\"Скачать документ\" onclick=\"loadDoc()\" />");
+    m_strOrderManagerPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonTemplate.html") + "<select id=\"DocList\" value=\"\"></select></br><input id=\"LoadDoc\" class=\"Button\" type=\"submit\" value=\"Скачать\" onclick=\"loadDoc()\" />");
     m_strOrderManagerPage = wrap_in_template(m_strOrderManagerPage, "<script src=\"/resources/managerdata.js\"></script>");
 
-    m_strOrderSpecialistPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonSpecialistTemplate.html") + "<select id=\"DocList\" value=\"\"></select></br><input id=\"LoadDoc\" class=\"Button\" type=\"submit\" value=\"Скачать документ\" onclick=\"loadDoc()\" />");
+    m_strOrderSpecialistPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonSpecialistTemplate.html") + "<select id=\"DocList\" value=\"\"></select></br><input id=\"LoadDoc\" class=\"Button\" type=\"submit\" value=\"Скачать\" onclick=\"loadDoc()\" />");
     m_strOrderSpecialistPage = wrap_in_template(m_strOrderSpecialistPage, "<script src=\"/resources/specialistdata.js\"></script>");
 }
 
@@ -108,7 +108,7 @@ void PageContainer::initOrderListPages(const std::string& strMainTemplate)
     auto strOrderListTemplate = m_Reader.readTemplate("templates\\OrderListTemplate.html");
     strOrderListTemplate = wrap_in_template(strMainTemplate, strOrderListTemplate);
 
-    m_strOrderListManagerPage = wrap_in_template(strOrderListTemplate, "<a href=\"/order/new\"><input class=\"Button\" type=\"submit\" value=\"Новая заявка\"></a>");
+    m_strOrderListManagerPage = strOrderListTemplate;
     m_strOrderListManagerPage = wrap_in_template(m_strOrderListManagerPage, "<script src=\"/resources/loadorderlist.js\"></script>");
 
     m_strOrderListSpecialistPage = wrap_in_template(strOrderListTemplate, "");

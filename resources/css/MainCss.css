@@ -25,6 +25,7 @@
 
 	padding-top: var(--header-padding);
 	padding-left: var(--header-padding);
+	padding-bottom: var(--header-padding);
 	position: fixed;
 	top: 0;
     right: 0;
@@ -32,12 +33,37 @@
 	z-index: 9999;
 }
 
-.HeaderText
+.HeadLeftBlock
 {
 	display: inline-block;
-	margin-left: 20px;
-	font-size: 25px;
+	padding-left: 200px;
+	width: 45%;
+	text-align: left;
+}
+
+.HeadRightBlock
+{
+	display: inline-block;
+	width: 42%;
+	text-align: right;
+}
+
+.HeaderTextLeft
+{
+	display: inline-block;
+	padding-left: 100px;
+	position: left;
+	font-size: 35px;
 	text-shadow: 3px 3px 3px black;
+}
+
+.HeaderTextRight
+{
+	display: inline-block;
+	position: right;
+	font-size: 35px;
+	text-shadow: 3px 3px 3px black;
+	padding-right: 300px;
 }
 
 .MainBlock
@@ -51,16 +77,24 @@
 	min-width: var(--main-width);
 	min-height: var(--main-height);
 	padding: 20px auto;
+
+	color: #ffcc00;
 }
 
 .Title
 {
 	display: inline-block;
+
+	padding-top: 25px;
+	padding-bottom: 25px;
+
 	background-color: #888888;
 	margin: 0px auto;
 	width: 100%;
 	text-align: center;
 	font-size: 25px;
+
+	text-shadow: 2px 2px 2px black;
 }
 
 .AuthorizationBlock
@@ -110,6 +144,17 @@
 	width: 100%;
 	margin: 0px auto;
 	text-align: center;
+	padding-bottom: 20px;
+}
+
+
+.Button
+{
+	width: 150px;
+	height: 50px;
+	font-size: 20px;
+	border-radius: 15px;
+
 }
 
 .TableBlock
