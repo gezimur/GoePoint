@@ -36,7 +36,7 @@
 .HeadLeftBlock
 {
 	display: inline-block;
-	padding-left: 200px;
+	padding-left: 5%;
 	width: 45%;
 	text-align: left;
 }
@@ -44,26 +44,24 @@
 .HeadRightBlock
 {
 	display: inline-block;
-	width: 42%;
+	width: 45%;
 	text-align: right;
 }
 
 .HeaderTextLeft
 {
 	display: inline-block;
-	padding-left: 100px;
-	position: left;
-	font-size: 35px;
+	padding-left: 10%;
+	font-size: 100%;
 	text-shadow: 3px 3px 3px black;
 }
 
 .HeaderTextRight
 {
 	display: inline-block;
-	position: right;
-	font-size: 35px;
+	font-size: 100%;
 	text-shadow: 3px 3px 3px black;
-	padding-right: 300px;
+	padding-right: 5%;
 }
 
 .MainBlock

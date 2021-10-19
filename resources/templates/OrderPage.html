@@ -1,0 +1,94 @@
+<!DocType html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>Project</title>
+	<link rel="stylesheet" type="text/css" href="/resources/maincss.css">
+<script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=hexSQJphi-bWtqiupeq6H07MNny1-IaSdGBELuKGRgw-049-M1Ah3qC0MBnHAjij3rMy-gAaeuLdQspZPdjzTA" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="http://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cDovLzE5Mi4xNjguMC4zNDoyMzQ1L29yZGVyL25ldw"/></head>
+<body class="Body">
+	<div class="HeadLine">
+		<div class="HeadLeftBlock">
+			<div class="HeaderTextLeft"><a href="/order/new">Новая заявка</a></div>
+			<div class="HeaderTextLeft"><a href="/order_list">Поиск заявок</a></div>
+		</div>
+		<div class="HeadRightBlock">
+			<div class="HeaderTextRight"><a href="/profile">Профиль</a></div>
+		</div>
+	</div>
+	<div class="MainBlock">
+	<div class="Title" id="Title"></div>
+	<div class="InputBlock" id="InputBlock">
+			<div class="FieldsBlock">
+				<div class="FieldsBlock">
+					<div class="FieldsBlock">
+							Тип работ</br>
+							<input type="text" name="work_class" form="upload_data" placeholder="Тип работ" /></br>
+							Вид работ</br>
+							<input type="text" name="work_type" form="upload_data" placeholder="Вид работ" /></br>
+							Местоположение</br>
+							<input type="text" name="place" form="upload_data" placeholder="Местоположение" /></br>
+					</div>
+					<div class="FieldsBlock">
+							Дата заявки</br>
+							<input type="date" name="order_date" form="upload_data" placeholder="Дата заявки" /></br>
+							Срок выполнения</br>
+							<input type="date" name="deadline" form="upload_data" placeholder="Срок выполнения" /></br>
+					</div>
+					<div class="FieldsBlock">
+							Инженер</br>
+							<input type="text" name="ingeneer" form="upload_data" placeholder="Исполнитель" /></br>
+							Полевик</br>
+							<input type="text" name="fielder" form="upload_data" placeholder="Исполнитель" /></br>
+							Статус</br>
+							<input name="status" id="Status" hidden="true"/>
+							<select id="Statuses" onchange="setValFunc(this)" value="0">
+								<option value=""></option>
+								<option value="0">Создана</option>
+								<option value="1">Полевая съемка</option>
+								<option value="2">Камеральная обработка</option>
+								<option value="3">Выполнена</option>
+							</select></br>
+					</div>
+				</div>
+				<div class="FieldsBlock">
+					<div class="FieldsBlock">
+							Заказчик</br>
+							<input type="text" name="customer" form="upload_data" placeholder="Заказчик" /></br>
+							Паспорт</br>
+							<input type="text" name="passport_number" form="upload_data" placeholder="Серия и номер паспорта" /><br>
+							Выдан</br>
+							<input type="text" name="passport_gived" form="upload_data" placeholder="Выдан" /><br>
+							Дата выдачи</br>
+							<input type="date" name="passport_date" form="upload_data" placeholder="Дата выдачи" /><br>
+					</div>
+					<div class="FieldsBlock">
+							Снилс</br>
+							<input type="text" name="snils" form="upload_data" placeholder="Номер СНИЛС" /><br>
+							Телефон</br>
+							<input type="text" name="phone" form="upload_data" placeholder="Номер клиента" /><br>
+							Почта</br>
+							<input type="text" name="email" form="upload_data" placeholder="E-mail" /><br>
+					</div>
+				</div>
+			</div>
+			<script>
+
+			function setValFunc(select)
+			{
+				Status.value = select.value;
+			}
+
+			</script>
+
+</div>
+<div class="ButtonBlock" id="ButtonBlock">
+<input class="Button" type="submit" value="Сохранить" form="add_new" onclick="saveData()" />
+<select id="DocList" value=""></select></br><input id="LoadDoc" class="Button" type="submit" value="Скачать" onclick="loadDoc()" />
+</div>
+<div class="Message" id="Message"></div>
+
+	</div>
+<script src="/resources/sendform.js"></script>
+<script src="/resources/managerdata.js"></script>
+</body>
+</html>

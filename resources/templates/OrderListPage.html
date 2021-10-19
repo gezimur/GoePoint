@@ -1,0 +1,71 @@
+<!DocType html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>Project</title>
+	<link rel="stylesheet" type="text/css" href="/resources/maincss.css">
+</head>
+<body class="Body">
+	<div class="HeadLine">
+		<div class="HeadLeftBlock">
+			<div class="HeaderTextLeft"><a href="/order/new">Новая заявка</a></div>
+			<div class="HeaderTextLeft"><a href="/order_list">Поиск заявок</a></div>
+		</div>
+		<div class="HeadRightBlock">
+			<div class="HeaderTextRight"><a href="/profile">Профиль</a></div>
+		</div>
+	</div>
+	<div class="MainBlock">
+	<div class="Title" id="Title"></div>
+		<div class="InputBlock" id="InputBlock">
+		<div class="FieldsBlock">
+			<div class="FieldsBlock">
+					Тип работ</br>
+					<input type="text" name="work_class" form="upload_data" placeholder="Тип работ" /></br>
+					Вид работ</br>
+					<input type="text" name="work_type" form="upload_data" placeholder="Вид работ" /></br>
+					Местоположение</br>
+					<input type="text" name="place" form="upload_data" placeholder="Местоположение" /></br>
+			</div>
+			<div class="FieldsBlock">
+				Дата заявки</br>
+				<input type="date" name="order_date" form="upload_data" placeholder="Дата заявки" /></br>
+				Срок выполнения</br>
+				<input type="date" name="deadline" form="upload_data" placeholder="Срок выполнения" /></br>
+			</div>
+			<div class="FieldsBlock">
+				Инженер</br>
+				<input type="text" name="ingeneer" form="upload_data" placeholder="Исполнитель" /></br>
+				Полевик</br>
+				<input type="text" name="fielder" form="upload_data" placeholder="Исполнитель" /></br>
+			</div>
+			<div class="FieldsBlock">
+				Статус</br>
+				<input name="status" id="Status" hidden="true"/>
+				<select id="Statuses" onchange="setValFunc(this)" value="0">
+					<option value=""></option>
+					<option value="0">Создан</option>
+					<option value="1">В поле</option>
+					<option value="2">Камеральная съемка</option>
+					<option value="3">Закрыт</option>
+				</select></br>
+			</div>
+		</div>
+		<script>
+
+		function setValFunc(select)
+		{
+			Status.value = select.value;
+		}
+
+		</script>
+		<input class="Button" type="submit" value="Поиск" form="upload_data" onclick="uploadTable()">
+		</div>
+		<div class="Message" id="Message"></div>
+		<table class="TableBlock" id="TableBlock">
+		</table>
+	</div>
+<script src="/resources/sendform.js"></script>
+<script src=\"/resources/loadorderlist.js\"></script>
+</body>
+</html>

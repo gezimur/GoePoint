@@ -1,0 +1,38 @@
+<!DocType html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>Project</title>
+	<link rel="stylesheet" type="text/css" href="/resources/maincss.css">
+<script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=9y3uXGFloPaUE4SnYNPzHSUJ8RVbxtxXBLE6n1Wvou2z9kwW9xIwVGq6xzuPsm0g1cdIFImfvUTbHUNbhYUXcA" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="http://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cDovLzE5Mi4xNjguMC4zNDoyMzQ1L3Byb2ZpbGU"/></head>
+<body class="Body">
+	<div class="HeadLine">
+		<div class="HeadLeftBlock">
+			<div class="HeaderTextLeft"><a href="/order/new">Новая заявка</a></div>
+			<div class="HeaderTextLeft"><a href="/order_list">Поиск заявок</a></div>
+		</div>
+		<div class="HeadRightBlock">
+			<div class="HeaderTextRight"><a href="/profile">Профиль</a></div>
+		</div>
+	</div>
+	<div class="MainBlock">
+	<div class="Title" id="Title"></div>
+	<div class="InputBlock" id="InputBlock">
+
+			<input class="Profile" type="text" name="full_name" form="upload_data" placeholder="full_name"><br>
+			<input type="text" name="username" form="upload_data" placeholder="username"></br> 
+			<input type="text" name="password" form="upload_data" placeholder="password"></br> 
+
+</div>
+<div class="ButtonBlock" id="ButtonBlock">
+<input class="Button" type="submit" value="Сохранить" onclick="saveData()" />
+<input class="Button" type="submit" value="Редактировать" onclick="editData()" />
+<a href="/exit"><input class="Button" type="submit" value="Выход"/></a>
+</div>
+<div class="Message" id="Message"></div>
+
+	</div>
+<script src="/resources/sendform.js"></script>
+<script src="/resources/profiledata.js"></script>
+</body>
+</html>
