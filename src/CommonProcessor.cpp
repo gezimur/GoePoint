@@ -29,6 +29,10 @@ std::map<std::string, std::string> make_search_form_map(const httpserver::http_r
     if (!strArg.empty())
         mArgs["place"] = strArg;
 
+    strArg = crReq.get_arg("space");
+    if (!strArg.empty())
+        mArgs["space"] = strArg;
+
     strArg = crReq.get_arg("status");
     if (!strArg.empty())
         mArgs["status"] = strArg;

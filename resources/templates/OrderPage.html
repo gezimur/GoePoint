@@ -27,6 +27,8 @@
 							<input type="text" name="work_type" form="upload_data" placeholder="Вид работ" /></br>
 							Местоположение</br>
 							<input type="text" name="place" form="upload_data" placeholder="Местоположение" /></br>
+							Предполагаемая площадь</br>
+							<input type="text" name="space" form="upload_data" placeholder="Площадь" /></br>
 					</div>
 					<div class="FieldsBlock">
 							Дата заявки</br>
@@ -36,9 +38,11 @@
 					</div>
 					<div class="FieldsBlock">
 							Инженер</br>
-							<input type="text" name="ingeneer" form="upload_data" placeholder="Исполнитель" /></br>
+							<input type="text" name="ingeneer" form="upload_data" placeholder="Исполнитель" autocomplete="off"/></br>
+							<div class="SearchAviceWrapper"></div>
 							Полевик</br>
-							<input type="text" name="fielder" form="upload_data" placeholder="Исполнитель" /></br>
+							<input type="text" name="fielder" form="upload_data" placeholder="Исполнитель" autocomplete="off"/></br>
+							<div class="SearchAviceWrapper"></div>
 							Статус</br>
 							<input name="status" id="Status" hidden="true"/>
 							<select id="Statuses" onchange="setValFunc(this)" value="0">
@@ -53,9 +57,11 @@
 				<div class="FieldsBlock">
 					<div class="FieldsBlock">
 							Заказчик</br>
-							<input type="text" name="customer" form="upload_data" placeholder="Заказчик" /></br>
+							<input type="text" name="customer" form="upload_data" placeholder="Заказчик" autocomplete="off"/></br>
+							<div class="SearchAviceWrapper"></div>
 							Паспорт</br>
-							<input type="text" name="passport_number" form="upload_data" placeholder="Серия и номер паспорта" /><br>
+							<input type="text" name="passport_number" form="upload_data" placeholder="Серия и номер паспорта" autocomplete="off"/><br>
+							<div class="SearchAviceWrapper"></div>
 							Выдан</br>
 							<input type="text" name="passport_gived" form="upload_data" placeholder="Выдан" /><br>
 							Дата выдачи</br>

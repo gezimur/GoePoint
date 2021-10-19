@@ -113,7 +113,7 @@ int main()
         WebServer.register_resource("/order/new", &PageProcessor);
         WebServer.register_resource("/order/new/save", &PageProcessor);
         WebServer.register_resource("/doc_list", &PageProcessor);
-        WebServer.register_resource("/document/[а-яА-Яa-zA-Z0-9\.]+", &PageProcessor);
+        WebServer.register_resource("/document/[а-яА-Яa-zA-Z0-9.]+", &PageProcessor);
 
         Res404 NotFound;
 

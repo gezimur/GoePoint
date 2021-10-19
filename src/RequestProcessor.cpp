@@ -17,10 +17,6 @@ std::map<std::string, std::string> make_save_user_form_map(const httpserver::htt
     if (!strArg.empty())
         mArgs["full_name"] = strArg;
 
-    strArg = crReq.get_arg("role");
-    if (!strArg.empty())
-        mArgs["role"] = strArg;
-
     strArg = crReq.get_arg("username");
     if (!strArg.empty())
         mArgs["username"] = strArg;

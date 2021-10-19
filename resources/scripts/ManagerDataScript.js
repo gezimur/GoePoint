@@ -1,6 +1,3 @@
-    Statuses.innerHTML = "<option value=\"0\">Создан</option>" +
-						"<option value=\"3\">Закрыт</option>";
-	
 	function printData(Responce)
 	{
 		path = window.location.pathname;

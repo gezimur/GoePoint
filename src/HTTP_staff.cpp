@@ -9,14 +9,13 @@ namespace geology
 
 std::string make_safe_str(const std::string& str)
 {
-    std::string strRes1;
+    std::string strRes;
 
-    std::regex Regex1("[\"\\\\]");
+    std::regex Regex("[\"\\\\]");
 
-       // write the results to an output iterator
-    std::regex_replace(std::back_inserter(strRes1), str.begin(), str.end(), Regex1, "\\$&");
+    std::regex_replace(std::back_inserter(strRes), str.begin(), str.end(), Regex, "\\$&");
 
-    return strRes1;
+    return strRes;
 }
 
 int get_req_type(const httpserver::http_request& crReq)
@@ -141,6 +140,10 @@ std::map<std::string, std::string> make_order_form_map(const httpserver::http_re
     strArg = crReq.get_arg("place");
     if (!strArg.empty())
         mArgs["place"] = strArg;
+
+    strArg = crReq.get_arg("space");
+    if (!strArg.empty())
+        mArgs["space"] = strArg;
 
     strArg = crReq.get_arg("status");
     if (!strArg.empty())
