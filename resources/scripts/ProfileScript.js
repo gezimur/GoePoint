@@ -57,10 +57,6 @@
 		}
 		
 		JsonTable = Responce.table[0];
-		if ("0" == JsonTable.role)
-			Role.innerHTML = "Менеджер";
-		else if ("1" == JsonTable.role)
-			Role.innerHTML = "Инженер";
 		
 		Inputs = InputBlock.querySelectorAll("input");
 		for (i = 0; i < Inputs.length; i++)

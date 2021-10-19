@@ -30,10 +30,9 @@ SOURCES += \
         $$PWD/src/GeologyDataBase/GeologyDataBase.cpp \
         $$PWD/src/Common/TimeMeter.cpp \
         $$PWD/src/HTTP_staff.cpp \
-        $$PWD/src/ManagerProcessor.cpp \
+        $$PWD/src/UserProcessor.cpp \
         $$PWD/src/PageContainer.cpp \
         $$PWD/src/RequestProcessor.cpp \
-        $$PWD/src/SpecialistProcessor.cpp \
         $$PWD/src/TemplateReader.cpp \
         $$PWD/src/main.cpp
 
@@ -44,10 +43,9 @@ HEADERS += \
     $$PWD/src/GeologyDataBase/GeologyDataBase.h \
     $$PWD/src/Common/TimeMeter.h \
     $$PWD/src/HTTP_staff.h \
-    $$PWD/src/ManagerProcessor.h \
+    $$PWD/src/UserProcessor.h \
     $$PWD/src/PageContainer.h \
     $$PWD/src/RequestProcessor.h \
-    $$PWD/src/SpecialistProcessor.h \
     $$PWD/src/TemplateReader.h
 
 DESTDIR = $$PWD/bin

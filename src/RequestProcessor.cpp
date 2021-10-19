@@ -37,8 +37,7 @@ RequestProcessor::RequestProcessor()
       m_spPages(std::make_shared<PageContainer>("..\\resources")), ///@todo make like param
       m_vRegisteredUrl{"/", "/authorization", "/profile", "/profile/save", "/order_list", "/order", "/exit"},
       m_CommonProcessor(m_spDataBase, m_spPages, m_vRegisteredUrl),
-      m_ManagerProcessor(m_spDataBase, m_spPages, m_vRegisteredUrl),
-      m_SpecialistProcessor(m_spDataBase, m_spPages, m_vRegisteredUrl)
+      m_UserProcessor(m_spDataBase, m_spPages, m_vRegisteredUrl)
 {
 
 }
@@ -71,14 +70,7 @@ RequestProcessor::responce_type RequestProcessor::render_POST(const httpserver::
     if ("/profile/save" == crReq.get_path())
         return procProfileSave(crReq);
 
-    auto strRole = Res.getTable()[0].at("role");
-
-    if ("0" == strRole) //manager
-        return m_ManagerProcessor.processPOST(crReq);
-    else if ("1" == strRole) //specialist
-        return m_SpecialistProcessor.processPOST(crReq);
-
-    return proc_exit();
+    return m_UserProcessor.processPOST(crReq);
 }
 
 RequestProcessor::responce_type RequestProcessor::procUserLvl(const httpserver::http_request& crReq)
@@ -91,23 +83,9 @@ RequestProcessor::responce_type RequestProcessor::procUserLvl(const httpserver::
         return proc_exit();
 
     if ("/profile" == crReq.get_path())
-        return proc_html_responce(m_spPages->getProfileManagerPage(), 200); ///@todo
+        return proc_html_responce(m_spPages->getProfilePage(), 200);
 
-    auto mUser = Res.getTable()[0];
-
-    return procRoleLvl(crReq, mUser);
-}
-
-RequestProcessor::responce_type RequestProcessor::procRoleLvl(const httpserver::http_request& crReq, const std::map<std::string, std::string>& mUser)
-{
-    auto strRole = mUser.at("role");
-
-    if ("0" == strRole) //manager
-        return m_ManagerProcessor.processGET(crReq);
-    else if ("1" == strRole) //specialist
-        return m_SpecialistProcessor.processGET(crReq);
-
-    return proc_exit(); ///@todo
+    return m_UserProcessor.processGET(crReq);
 }
 
 RequestProcessor::responce_type RequestProcessor::procProfileSave(const httpserver::http_request& crReq)

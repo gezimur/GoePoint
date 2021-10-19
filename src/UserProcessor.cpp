@@ -1,4 +1,4 @@
-#include "ManagerProcessor.h"
+#include "UserProcessor.h"
 
 #include  "HTTP_staff.h"
 
@@ -49,7 +49,7 @@ std::map<std::string, std::string> make_customer_args(const httpserver::http_req
     return mArgs;
 }
 
-ManagerProcessor::ManagerProcessor(const std::shared_ptr<GeologyDataBase>& spDataBase, const std::shared_ptr<PageContainer>& spPages, const std::vector<std::string>& vRegisteredUrl)
+UserProcessor::UserProcessor(const std::shared_ptr<GeologyDataBase>& spDataBase, const std::shared_ptr<PageContainer>& spPages, const std::vector<std::string>& vRegisteredUrl)
     : m_spDataBase(spDataBase),
       m_spPages(spPages),
       m_vRegisteredUrl(vRegisteredUrl)
@@ -57,20 +57,20 @@ ManagerProcessor::ManagerProcessor(const std::shared_ptr<GeologyDataBase>& spDat
 
 }
 
-ManagerProcessor::responce_type ManagerProcessor::processGET(const httpserver::http_request& crReq)
+UserProcessor::responce_type UserProcessor::processGET(const httpserver::http_request& crReq)
 {
     auto strPath = crReq.get_path();
 
     if ("/order_list" == strPath)
-        return proc_html_responce(m_spPages->getOrderListManagerPage(), 200); ///@todo manager page
+        return proc_html_responce(m_spPages->getOrderListPage(), 200);
 
     if (std::string::npos == strPath.find("/order"))
         return proc_html_responce(m_spPages->get404Page(), 200);
 
-    return proc_html_responce(m_spPages->getOrderManagerPage(), 200); ///@todo manager page
+    return proc_html_responce(m_spPages->getOrderPage(), 200);
 }
 
-ManagerProcessor::responce_type ManagerProcessor::processPOST(const httpserver::http_request& crReq)
+UserProcessor::responce_type UserProcessor::processPOST(const httpserver::http_request& crReq)
 {
     auto vPath = crReq.get_path_pieces();
 
@@ -85,7 +85,7 @@ ManagerProcessor::responce_type ManagerProcessor::processPOST(const httpserver::
     return proc_msg_responce("Invalid request", 200);
 }
 
-ManagerProcessor::responce_type ManagerProcessor::procGetOrder(const std::string& strOrderId)
+UserProcessor::responce_type UserProcessor::procGetOrder(const std::string& strOrderId)
 {
     DataBaseResponce Res;
 
@@ -100,7 +100,7 @@ ManagerProcessor::responce_type ManagerProcessor::procGetOrder(const std::string
     return proc_json_responce(Res, 200);
 }
 
-ManagerProcessor::responce_type ManagerProcessor::procSaveOrder(const httpserver::http_request& crReq, const std::string& strOrderId)
+UserProcessor::responce_type UserProcessor::procSaveOrder(const httpserver::http_request& crReq, const std::string& strOrderId)
 {
     auto  mCustumerArgs = make_customer_args(crReq);
 
@@ -117,7 +117,7 @@ ManagerProcessor::responce_type ManagerProcessor::procSaveOrder(const httpserver
     return saveOrder(mOrderArgs);
 }
 
-ManagerProcessor::responce_type ManagerProcessor::saveOrder(const std::map<std::string, std::string>& mOrderArgs)
+UserProcessor::responce_type UserProcessor::saveOrder(const std::map<std::string, std::string>& mOrderArgs)
 {
     auto eReqType = DataBaseRequest::data_base_req_type::write_order;
 
@@ -129,7 +129,7 @@ ManagerProcessor::responce_type ManagerProcessor::saveOrder(const std::map<std::
     return proc_json_responce(Res, 200);
 }
 
-ManagerProcessor::responce_type ManagerProcessor::procOrderCustomer(const std::map<std::string, std::string>& mCustumerArgs, bool bRewrite)
+UserProcessor::responce_type UserProcessor::procOrderCustomer(const std::map<std::string, std::string>& mCustumerArgs, bool bRewrite)
 {
     auto FindCustomerRes = findCustomer({{"passport_number", mCustumerArgs.at("passport_number")}});
 
@@ -156,7 +156,7 @@ ManagerProcessor::responce_type ManagerProcessor::procOrderCustomer(const std::m
     return nullptr;
 }
 
-DataBaseResponce ManagerProcessor::findCustomer(const std::map<std::string, std::string>& mCustumerArgs)
+DataBaseResponce UserProcessor::findCustomer(const std::map<std::string, std::string>& mCustumerArgs)
 {
     auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::get_customer, mCustumerArgs); ///@todo
     m_spDataBase->pushReq(spReq);
@@ -164,7 +164,7 @@ DataBaseResponce ManagerProcessor::findCustomer(const std::map<std::string, std:
     return spReq->waitAndGetRes();
 }
 
-DataBaseResponce ManagerProcessor::addCustomer(const std::map<std::string, std::string>& mCustumerArgs)
+DataBaseResponce UserProcessor::addCustomer(const std::map<std::string, std::string>& mCustumerArgs)
 {
     auto spReq = DataBaseRequest::make(DataBaseRequest::data_base_req_type::write_customer, mCustumerArgs); ///@todo
     m_spDataBase->pushReq(spReq);

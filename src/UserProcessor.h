@@ -9,12 +9,12 @@
 namespace geology
 {
 
-class ManagerProcessor
+class UserProcessor
 {
     using responce_type = const std::shared_ptr<httpserver::http_response>;
 
 public:
-    explicit ManagerProcessor(const std::shared_ptr<GeologyDataBase>& spDataBase, const std::shared_ptr<PageContainer>& spPages, const std::vector<std::string>& vRegisteredUrl);
+    explicit UserProcessor(const std::shared_ptr<GeologyDataBase>& spDataBase, const std::shared_ptr<PageContainer>& spPages, const std::vector<std::string>& vRegisteredUrl);
 
     responce_type processGET(const httpserver::http_request& crReq);
     responce_type processPOST(const httpserver::http_request& crReq);
@@ -24,9 +24,9 @@ private:
 
     responce_type procSaveOrder(const httpserver::http_request& crReq, const std::string& strOrderId);
 
-    ManagerProcessor::responce_type saveOrder(const std::map<std::string, std::string>& mOrderArgs);
+    UserProcessor::responce_type saveOrder(const std::map<std::string, std::string>& mOrderArgs);
 
-    ManagerProcessor::responce_type procOrderCustomer(const std::map<std::string, std::string>& mCustumerArgs, bool bRewrite);
+    UserProcessor::responce_type procOrderCustomer(const std::map<std::string, std::string>& mCustumerArgs, bool bRewrite);
 
     DataBaseResponce findCustomer(const std::map<std::string, std::string>& mCustumerArgs);
 

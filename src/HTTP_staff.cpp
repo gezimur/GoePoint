@@ -9,14 +9,14 @@ namespace geology
 
 std::string make_safe_str(const std::string& str)
 {
-    std::string strRes;
+    std::string strRes1;
 
-    std::regex Regex("[,\";]");
+    std::regex Regex1("[\"\\\\]");
 
        // write the results to an output iterator
-    std::regex_replace(std::back_inserter(strRes), str.begin(), str.end(), Regex, "\\\\\\$&");
+    std::regex_replace(std::back_inserter(strRes1), str.begin(), str.end(), Regex1, "\\$&");
 
-    return strRes;
+    return strRes1;
 }
 
 int get_req_type(const httpserver::http_request& crReq)
@@ -68,7 +68,7 @@ std::string make_json(const DataBaseResponce& crResponce)
         {
             if (itRow->begin() != it)
                 strJson += ",";
-            strJson += "\"" + it->first + "\" : \"" + it->second + "\"";
+            strJson += "\"" + it->first + "\" : \"" + make_safe_str(it->second) + "\"";
         }
         strJson += "}";
     }
@@ -124,27 +124,27 @@ std::map<std::string, std::string> make_order_form_map(const httpserver::http_re
 
     auto strArg = crReq.get_arg("work_class");
     if (!strArg.empty())
-        mArgs["work_class"] = make_safe_str(strArg);
+        mArgs["work_class"] = strArg;
 
     strArg = crReq.get_arg("work_type");
     if (!strArg.empty())
-        mArgs["work_type"] = make_safe_str(strArg);
+        mArgs["work_type"] = strArg;
 
     strArg = crReq.get_arg("order_date");
     if (!strArg.empty())
-        mArgs["order_date"] = make_safe_str(strArg);
+        mArgs["order_date"] = strArg;
 
     strArg = crReq.get_arg("deadline");
     if (!strArg.empty())
-        mArgs["deadline"] = make_safe_str(strArg);
+        mArgs["deadline"] = strArg;
 
     strArg = crReq.get_arg("place");
     if (!strArg.empty())
-        mArgs["place"] = make_safe_str(strArg);
+        mArgs["place"] = strArg;
 
     strArg = crReq.get_arg("status");
     if (!strArg.empty())
-        mArgs["status"] = make_safe_str(strArg);
+        mArgs["status"] = strArg;
 
     return mArgs;
 }

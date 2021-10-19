@@ -27,17 +27,13 @@ PageContainer::PageContainer(const std::string& strResourcePath)
 {
     m_strAuthorizationPage = m_Reader.readTemplate("templates\\Authorization.html");
 
+    m_strPofilePage = m_Reader.readTemplate("templates\\ProfilePage.html");
+
+    m_strOrderPage = m_Reader.readTemplate("templates\\OrderPage.html");
+
+    m_strOrderListPage = m_Reader.readTemplate("templates\\OrderListPage.html");
+
     auto strMainTemplate = m_Reader.readTemplate("templates\\MainTemplate.html");
-
-    auto strDataTemplate = m_Reader.readTemplate("templates\\DataTemplate.html");
-    strDataTemplate = wrap_in_template(strMainTemplate, strDataTemplate);
-
-    initProfilePages(strDataTemplate);
-
-    initOrderPages(strDataTemplate);
-
-    initOrderListPages(strMainTemplate);
-
     m_str404Page = wrap_in_template(strMainTemplate, "<h1>Page not found</h1>");
 }
 
@@ -46,73 +42,24 @@ const std::string& PageContainer::getAuthorizationPage()
     return m_strAuthorizationPage;
 }
 
-const std::string& PageContainer::getProfileManagerPage()
+const std::string& PageContainer::getProfilePage()
 {
-    return m_strPofileManagerPage;
+    return m_strPofilePage;
 }
 
-const std::string& PageContainer::getProfileSpecialistPage()
+const std::string& PageContainer::getOrderPage()
 {
-    return m_strPofileSpecialistPage;
+    return m_strOrderPage;
 }
 
-const std::string& PageContainer::getOrderManagerPage()
+const std::string& PageContainer::getOrderListPage()
 {
-    return m_strOrderManagerPage;
-}
-
-const std::string& PageContainer::getOrderSpecialistPage()
-{
-    return m_strOrderSpecialistPage;
-}
-
-const std::string& PageContainer::getOrderListManagerPage()
-{
-    return m_strOrderListManagerPage;
-}
-
-const std::string& PageContainer::getOrderListSpecialistPage()
-{
-    return m_strOrderListSpecialistPage;
+    return m_strOrderListPage;
 }
 
 const std::string& PageContainer::get404Page()
 {
     return m_str404Page;
-}
-
-void PageContainer::initProfilePages(const std::string& strDataTemplate)
-{
-    auto strProfileTemplate = m_Reader.readTemplate("templates\\ProfileTemplate.html");
-    strProfileTemplate = wrap_in_template(strDataTemplate, strProfileTemplate);
-    strProfileTemplate = wrap_in_template(strProfileTemplate, m_Reader.readTemplate("templates\\ButtonTemplate.html"));
-
-    m_strPofileManagerPage = wrap_in_template(strProfileTemplate, "<script src=\"/resources/profiledata.js\"></script>");
-    m_strPofileSpecialistPage = wrap_in_template(strProfileTemplate, "<script src=\"/resources/profiledata.js\"></script>");
-}
-
-void PageContainer::initOrderPages(const std::string& strDataTemplate)
-{
-    auto strOrderTemplate = m_Reader.readTemplate("templates\\OrderTemplate.html");
-    strOrderTemplate = wrap_in_template(strDataTemplate, strOrderTemplate);
-
-    m_strOrderManagerPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonTemplate.html") + "<select id=\"DocList\" value=\"\"></select></br><input id=\"LoadDoc\" class=\"Button\" type=\"submit\" value=\"Скачать\" onclick=\"loadDoc()\" />");
-    m_strOrderManagerPage = wrap_in_template(m_strOrderManagerPage, "<script src=\"/resources/managerdata.js\"></script>");
-
-    m_strOrderSpecialistPage = wrap_in_template(strOrderTemplate, m_Reader.readTemplate("templates\\ButtonSpecialistTemplate.html") + "<select id=\"DocList\" value=\"\"></select></br><input id=\"LoadDoc\" class=\"Button\" type=\"submit\" value=\"Скачать\" onclick=\"loadDoc()\" />");
-    m_strOrderSpecialistPage = wrap_in_template(m_strOrderSpecialistPage, "<script src=\"/resources/specialistdata.js\"></script>");
-}
-
-void PageContainer::initOrderListPages(const std::string& strMainTemplate)
-{
-    auto strOrderListTemplate = m_Reader.readTemplate("templates\\OrderListTemplate.html");
-    strOrderListTemplate = wrap_in_template(strMainTemplate, strOrderListTemplate);
-
-    m_strOrderListManagerPage = strOrderListTemplate;
-    m_strOrderListManagerPage = wrap_in_template(m_strOrderListManagerPage, "<script src=\"/resources/loadorderlist.js\"></script>");
-
-    m_strOrderListSpecialistPage = wrap_in_template(strOrderListTemplate, "");
-    m_strOrderListSpecialistPage = wrap_in_template(m_strOrderListSpecialistPage, "<script src=\"/resources/loadorderlist.js\"></script>");
 }
 
 } // namespace geology
